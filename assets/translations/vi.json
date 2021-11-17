@@ -1,0 +1,14 @@
+{
+  "login" : "đăng nhập",
+  "not_found" : "không tìm thấy",
+  "network_unavailable" : "mất kết nối",
+  "email" : "email",
+  "password" : "mật khẩu",
+  "confirm_password" : "xác nhận mật khẩu",
+  "forget_password" : "quên mật khẩu",
+  "do_not_have_an_account" : "Bạn chưa có tài khoản",
+  "already_have_an_account" : "Bạn đã có tài khoản",
+
+  "feature_not_available" : "tính năng chưa hổ trợ",
+  "register" : "đăng ký"
+}

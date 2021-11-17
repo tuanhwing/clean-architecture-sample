@@ -1,0 +1,14 @@
+{
+  "login" : "login",
+  "not_found" : "not found",
+  "network_unavailable" : "network unavailable",
+  "email" : "email",
+  "password" : "password",
+  "confirm_password" : "confirm password",
+  "forget_password" : "forget password",
+  "do_not_have_an_account" : "don't have an account",
+  "already_have_an_account" : "already have an account",
+
+  "feature_not_available" : "feature not available",
+  "register" : "register"
+}

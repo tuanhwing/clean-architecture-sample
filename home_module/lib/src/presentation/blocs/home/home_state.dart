@@ -1,0 +1,4 @@
+
+class HomeState {
+  const HomeState();
+}

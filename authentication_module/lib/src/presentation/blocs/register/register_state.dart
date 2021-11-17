@@ -1,0 +1,4 @@
+
+class RegisterState {
+  const RegisterState();
+}
