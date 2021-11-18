@@ -14,7 +14,7 @@ import 'src/data/data.dart';
 class AuthenticationModule extends THModule {
   AuthenticationModule({Key? key}) : super(key: key);
 
-  static final routeName = Routes.root;
+  static const routeName = Routes.root;
 
   static Future<void> initialize() async {
     // Data sources

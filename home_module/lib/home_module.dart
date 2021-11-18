@@ -12,7 +12,7 @@ import 'src/presentation/blocs/blocs.dart';
 class HomeModule extends THModule {
   HomeModule({Key? key}) : super(key: key);
 
-  static final routeName = Routes.root;
+  static const routeName = Routes.root;
 
   static Future<void> initialize() async {
     //Blocs

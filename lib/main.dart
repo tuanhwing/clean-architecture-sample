@@ -24,6 +24,19 @@ Future<void> _init() async {
   GetIt.I.registerLazySingleton<LogoutUseCase>(() => LogoutUseCase(GetIt.I.get()));
 }
 
+Future<bool> _isLoggedIn() async {
+  try {
+    final failureOrLoggedIn = await GetIt.I.get<GetCachedProfileUseCase>().invoke(NoParams());
+    return failureOrLoggedIn.fold<bool>(
+          (failure) => false,
+          (loggedIn) => true,
+    );
+  }
+  catch(exception) {
+    return false;
+  }
+}
+
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,11 +48,13 @@ void main() async {
   await AuthenticationModule.initialize();
   await HomeModule.initialize();
 
+  String initRoute = await _isLoggedIn() ? HomeModule.routeName : AuthenticationModule.routeName;
+
   runApp(THCoreApp(
     supportedLocales: const [Locale('vi'), Locale('en')],
     path: 'assets/translations',
     fallbackLocale: const Locale('vi', 'VN'),
-    child: MyApp(initRouteName: AuthenticationModule.routeName),
+    child: MyApp(initRouteName: initRoute),
   ));
 }
 
@@ -59,10 +74,10 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
+      initialRoute: initRouteName,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AuthenticationModule(),
       routes: {
         AuthenticationModule.routeName : (_) => AuthenticationModule(),
         HomeModule.routeName : (_) => HomeModule()
