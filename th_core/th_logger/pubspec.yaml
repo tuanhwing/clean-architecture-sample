@@ -1,8 +1,7 @@
-name: example_dependencies
-description: A example dependencies Flutter package.
+name: th_logger
+description: A Logger Flutter package.
 version: 0.0.1
 homepage:
-publish_to: none
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -12,12 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  th_core:
-    path: ../th_core
-  device_info: ^2.0.3
-  uuid: ^3.0.5
-  package_info_plus: ^1.0.6
-  dartz: 0.10.0
+  logger: 1.1.0
 
 dev_dependencies:
   flutter_test:

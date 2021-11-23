@@ -1,5 +1,5 @@
-name: example_dependencies
-description: A example dependencies Flutter package.
+name: th_network
+description: A th_network Flutter package.
 version: 0.0.1
 homepage:
 publish_to: none
@@ -12,12 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-  th_core:
-    path: ../th_core
-  device_info: ^2.0.3
-  uuid: ^3.0.5
-  package_info_plus: ^1.0.6
-  dartz: 0.10.0
+  dio: 4.0.0
+  th_logger:
+    path: ../th_logger
+
+  th_dependencies:
+    path: ../th_dependencies
 
 dev_dependencies:
   flutter_test:

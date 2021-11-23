@@ -1,8 +1,7 @@
-name: example_dependencies
-description: A example dependencies Flutter package.
+name: th_local_database
+description: A Local Database Flutter package.
 version: 0.0.1
 homepage:
-publish_to: none
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -11,18 +10,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  th_core:
-    path: ../th_core
-  device_info: ^2.0.3
-  uuid: ^3.0.5
-  package_info_plus: ^1.0.6
-  dartz: 0.10.0
+  floor: ^1.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
+  floor_generator: ^1.2.0
+  build_runner: ^2.1.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
