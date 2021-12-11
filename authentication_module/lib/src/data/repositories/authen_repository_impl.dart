@@ -21,9 +21,6 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     on ServerException catch (exception) {
       return Left(ServerFailure(message: exception.message));
     }
-    on CacheException catch (exception) {
-      return Left(CacheFailure(message: exception.message));
-    }
     catch (exception) {
       return Left(InternalFailure(message: exception.toString()));
     }

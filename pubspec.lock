@@ -498,28 +498,28 @@ packages:
   th_core:
     dependency: transitive
     description:
-      path: "../th_core"
+      path: th_core
       relative: true
     source: path
     version: "0.0.1"
   th_dependencies:
     dependency: transitive
     description:
-      path: "../th_core/th_dependencies"
+      path: "th_core/th_dependencies"
       relative: true
     source: path
     version: "0.0.1"
   th_logger:
     dependency: transitive
     description:
-      path: "../th_core/th_logger"
+      path: "th_core/th_logger"
       relative: true
     source: path
     version: "0.0.1"
   th_network:
     dependency: transitive
     description:
-      path: "../th_core/th_network"
+      path: "th_core/th_network"
       relative: true
     source: path
     version: "0.0.1"
