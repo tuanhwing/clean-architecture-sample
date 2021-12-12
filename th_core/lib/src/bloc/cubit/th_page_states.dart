@@ -1,8 +1,13 @@
 
+import 'package:th_core/th_core.dart';
+
 ///abstract [THPageState] used to build loading/error/init state
-abstract class THPageState {
+abstract class THPageState extends Equatable {
   ///Constructor
-  THPageState();
+  const THPageState();
+
+  @override
+  List<Object?> get props => <Object?>[];
 }
 
 ///[THNone] represents first or normal state
@@ -14,8 +19,11 @@ class THLoading extends THPageState {}
 /// [THError] represents error state
 class THError extends THPageState {
   ///Constructor
-  THError(this.message) : super();
+  const THError(this.message) : super();
 
   ///Message
   final String message;
+
+  @override
+  List<Object?> get props => <Object?>[message];
 }

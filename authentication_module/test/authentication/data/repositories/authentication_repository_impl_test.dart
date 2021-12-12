@@ -2,6 +2,7 @@
 
 import 'package:authentication_module/src/data/data.dart';
 import 'package:example_dependencies/core/core.dart';
+import 'package:example_dependencies/example_dependencies.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -49,10 +50,7 @@ void main() {
       setUpMockAuthenticationSuccess();
 
       final failureOrUser = await _authenticationRepoImpl.signInWith('email', 'password');
-      failureOrUser.fold(
-        (failure) => expect(failure, true),
-        (signedIn) => expect(signedIn, true),
-      );
+      expect(failureOrUser, const Right(true));
     });
 
     test('should return ServerFailure when the response authentication_remote is failed', () async {
@@ -61,10 +59,7 @@ void main() {
       setUpMockAuthenticationServerFailure();
 
       final failureOrUser = await _authenticationRepoImpl.signInWith('email', 'password');
-      failureOrUser.fold(
-            (failure) => expect(failure, equals(const ServerFailure())),
-            (signedIn) => expect(signedIn, equals(const ServerFailure())),
-      );
+      expect(failureOrUser, const Left(ServerFailure()));
     });
   });
 
