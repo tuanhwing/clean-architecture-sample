@@ -6,7 +6,7 @@ Flutter template project to explore the `Clean architecture` and manage the Flut
 
 This project is a starting point for a Flutter application.
 
--  Use `th_core` packages to implement BLoC architecture [https://github.com/tuanhwing/th_core].
+-  Use `th_core` packages to implement `BLoC pattern` [https://github.com/tuanhwing/th_core].
 -  Dividing a project into different modules (`modularization`)
 
 #### What is Modularization
