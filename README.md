@@ -16,7 +16,8 @@ This project is a starting point for a Flutter application.
 ![image](https://i.imgur.com/9EI9Lwg.png)
 For example, on the left, we can only split the work for two developers or more. But on the right side, we can split the work for five developers or more, and also this is very suitable for a large team because we split the project as a module. So the developer can focus on their module.
 
-**Introduction**
+##Introduction
+
 It is architecture based on the blog by [Reso Coder's Flutter Clean Architecture ](https://resocoder.com/2019/08/27/flutter-tdd-clean-architecture-course-1-explanation-project-structure/). The main focus of the architecture is separation of concerns and scalability.  I will apply this diagram to my application.
 
 ![alt text](https://i0.wp.com/resocoder.com/wp-content/uploads/2019/08/Clean-Architecture-Flutter-Diagram.png?w=556&ssl=1)
