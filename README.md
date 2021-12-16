@@ -33,23 +33,26 @@ Every "feature" of the app, like sign in with email and password, will be divide
 
 1. Domain
    It will contain only the core business logic (use cases) and business objects (entities). It should be totally independent of every other layer.
+
    ![alt text](https://i0.wp.com/resocoder.com/wp-content/uploads/2019/08/domain-layer-diagram.png?w=141&ssl=1)
-    - `UseCase`: Classes which encapsulate all the business logic of a particular use case of the app (e.g. FetchProfile or UpdateProfile).
-    - `Entities`: Business objects of the application
-    - `Repositories`: Abstract classes that define the expected functionality of outer layers (`data` layer).
+   - `UseCase`: Classes which encapsulate all the business logic of a particular use case of the app (e.g. FetchProfile or UpdateProfile).
+   - `Entities`: Business objects of the application
+   - `Repositories`: Abstract classes that define the expected functionality of outer layers (`data` layer).
 
    We create an abstract Repository class defining a contract of what the Repository must do - this goes into the domain layer. We then depend on the Repository "contract" defined in `domain`, knowing that the actual implementation of the Repository in the `data` layer will fullfill this contract.
    >NOTE: Dependency inversion principle is the last of the SOLID principles. It basically states that the boundaries between layers should be handled with interfaces (abstract classes in Dart).
 
 2. Data:
    Consists of a **Repository implementation** (the contract comes from the `domain` layer) and data sources - one is usually for getting remote (API) data and the other for caching that data.
+
    ![alt text](https://i0.wp.com/resocoder.com/wp-content/uploads/2019/08/data-layer-diagram.png?w=329&ssl=1)
-    - `Repositories`: Every Repository should implement Repository from the `domain` layer.
-    - `Datasources`:
-        - *remote* : responsible for any API call.
-        - *local* : reposible for caching data in local database (e.g SQLite, shared_preferences)
-    - `Models`: Extensions of `Entities` with the addition of extra members that might be platform-dependent. For example, in the case of parse json Oject from reponse's server, this can be add some specific functionality (toJson, fromJson) or additional fields database.
+   - `Repositories`: Every Repository should implement Repository from the `domain` layer.
+   - `Datasources`:
+      - *remote* : responsible for any API call.
+      - *local* : reposible for caching data in local database (e.g SQLite, shared_preferences)
+   - `Models`: Extensions of `Entities` with the addition of extra members that might be platform-dependent. For example, in the case of parse json Oject from reponse's server, this can be add some specific functionality (toJson, fromJson) or additional fields database.
    > NOTE: You may notice that data sources don't return `Entities` but rather `Models`.
 3. Presentation:
    Contains the UI and the event handlers of the UI.
+
    ![alt text](https://i0.wp.com/resocoder.com/wp-content/uploads/2019/08/presentation-layer-diagram.png?w=287&ssl=1)
