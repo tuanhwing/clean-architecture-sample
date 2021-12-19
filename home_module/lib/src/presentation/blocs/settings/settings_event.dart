@@ -9,4 +9,6 @@ abstract class SettingsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LogoutEvent extends SettingsEvent {}
+class LogoutEvent extends SettingsEvent {
+  const LogoutEvent();
+}
