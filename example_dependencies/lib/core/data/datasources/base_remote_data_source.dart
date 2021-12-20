@@ -13,7 +13,7 @@ abstract class BaseRemoteDataSource {
   THNetworkRequester get requester => _requester;
 
   ///Get device information
-  Future<Map<String, dynamic>> getDeviceInfo() async {
+  Future<Map<String, dynamic>> get deviceInfo async {
     if (_deviceInfo != null) {
       return _deviceInfo!;
     }
