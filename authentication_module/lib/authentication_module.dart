@@ -18,7 +18,12 @@ class AuthenticationModule extends THModule {
 
   static Future<void> initialize() async {
     // Data sources
-    GetIt.I.registerLazySingleton<AuthenticationRemoteDataSource>(() => AuthenticationRemoteDataSourceImpl(GetIt.I.get()));
+    GetIt.I.registerLazySingleton<AuthenticationRemoteDataSource>(
+      () => AuthenticationRemoteDataSourceImpl(
+        GetIt.I.get(),
+        GetIt.I.get(),
+      )
+    );
     GetIt.I.registerLazySingleton<AuthenticationLocalDataSource>(() => AuthenticationLocalDataSourceImpl(GetIt.I.get()));
 
     //Repository

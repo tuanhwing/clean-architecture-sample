@@ -7,3 +7,5 @@ export 'core/core.dart';
 export 'resources/mockup.dart';
 export 'package:th_core/th_core.dart';
 export 'package:dartz/dartz.dart';
+export 'package:device_info/device_info.dart';
+export 'package:package_info_plus/package_info_plus.dart';

@@ -4,7 +4,10 @@ import 'package:example_dependencies/example_dependencies.dart';
 import '../models/models.dart';
 
 abstract class AuthenticationRemoteDataSource extends BaseRemoteDataSource {
-  AuthenticationRemoteDataSource(THNetworkRequester requester) : super(requester);
+  AuthenticationRemoteDataSource(
+    THNetworkRequester requester,
+    DeviceInfoDataSource deviceInfoDataSource,
+  ) : super(requester, deviceInfoDataSource);
 
 
   /// Calls the /user/login endpoint.
@@ -19,7 +22,10 @@ abstract class AuthenticationRemoteDataSource extends BaseRemoteDataSource {
 }
 
 class AuthenticationRemoteDataSourceImpl extends AuthenticationRemoteDataSource {
-  AuthenticationRemoteDataSourceImpl(THNetworkRequester requester) : super(requester);
+  AuthenticationRemoteDataSourceImpl(
+      THNetworkRequester requester,
+      DeviceInfoDataSource deviceInfoDataSource,
+  ) : super(requester, deviceInfoDataSource);
 
   @override
   Future<bool> signIn(String email, String password) async {
@@ -35,7 +41,7 @@ class AuthenticationRemoteDataSourceImpl extends AuthenticationRemoteDataSource 
         data: {
           "login_id" : email,
           "password" : password,
-          // "device" : await getDeviceInfo()
+          "device" : await deviceInfo
         }
     );
 

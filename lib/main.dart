@@ -5,12 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:th_core/th_core.dart';
 
 Future<void> _init() async {
+  PackageInfo package = await PackageInfo.fromPlatform();
+  //Common
+  GetIt.I.registerLazySingleton<DeviceInfoPlugin>(() => DeviceInfoPlugin());
+  GetIt.I.registerLazySingleton<PackageInfo>(() => package);
+  GetIt.I.registerLazySingleton<DeviceInfoDataSource>(() => DeviceInfoDataSourceImpl(
+    GetIt.I.get<DeviceInfoPlugin>(),
+    GetIt.I.get<PackageInfo>(),
+  ));
+
   //Blocs
   GetIt.I.registerLazySingleton<AppBloc>(() => AppBloc());
 
   //Data
   GetIt.I.registerLazySingleton<UserLocalDataSource>(() => UserLocalDataSourceImpl(GetIt.I.get()));
-  GetIt.I.registerLazySingleton<UserRemoteDataSource>(() => UserRemoteDataSourceImpl(GetIt.I.get()));
+  GetIt.I.registerLazySingleton<UserRemoteDataSource>(
+    () => UserRemoteDataSourceImpl(
+      GetIt.I.get(),
+      GetIt.I.get(),
+    )
+  );
 
   //Repository
   GetIt.I.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(

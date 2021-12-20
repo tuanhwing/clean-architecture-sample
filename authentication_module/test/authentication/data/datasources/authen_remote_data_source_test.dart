@@ -40,21 +40,35 @@ class MockTHNetworkRequester extends Mock implements THNetworkRequester {
   }
 }
 
+class MockDeviceInfoDataSource extends Mock implements DeviceInfoDataSource {
+  @override
+  Future<Map<String, dynamic>> get deviceInfo => super.noSuchMethod(
+    Invocation.getter(#deviceInfo),
+    returnValue: Future.value({"os" : "os"})
+  );
+}
+
 void main() {
   late MockTHNetworkRequester _requester;
+  late MockDeviceInfoDataSource _deviceInfoDataSource;
   late AuthenticationRemoteDataSourceImpl _dataSource;
 
   setUp(() {
     _requester = MockTHNetworkRequester();
+    _deviceInfoDataSource = MockDeviceInfoDataSource();
 
-    _dataSource = AuthenticationRemoteDataSourceImpl(_requester);
+    _dataSource = AuthenticationRemoteDataSourceImpl(_requester, _deviceInfoDataSource);
 
     when(_requester.setToken("access_token", "refresh_token"))
         .thenAnswer((_) async => true
     );
+
+    when(_deviceInfoDataSource.deviceInfo)
+      .thenAnswer((_) async => {});
   });
 
   void setUpMockAuthenticationSuccess200() {
+
     when(_requester.executeRequest(THRequestMethods.post, "/front/api/v1/user/login"))
       .thenAnswer((_) async =>
         THResponse(
@@ -69,6 +83,7 @@ void main() {
   }
 
   void setUpMockHttpClientFailure404() {
+
     when(_requester.executeRequest(THRequestMethods.post, "/front/api/v1/user/login"))
       .thenAnswer((_) async =>
         THResponse(
