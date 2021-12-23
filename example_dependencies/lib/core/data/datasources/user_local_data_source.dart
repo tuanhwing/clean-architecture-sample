@@ -37,9 +37,8 @@ class UserLocalDataSourceImpl extends UserLocalDataSource {
       return  UserModel.fromJson(json.decode(data));
     }
     else {
-      throw CacheException();
+      throw const CacheException();
     }
-
   }
 
   @override

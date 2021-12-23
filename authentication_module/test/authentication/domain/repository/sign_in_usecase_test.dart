@@ -11,7 +11,10 @@ class MockAuthenticationRemoteRepository extends Mock implements AuthenticationR
   @override
   Future<Either<Failure, bool>> signInWith(String email, password) async {
     Right<Failure, bool> resultValue = const Right<Failure, bool>(true);
-    return super.noSuchMethod(Invocation.method(#signInWith, ['email', 'password']), returnValue: Future.value(resultValue));
+    return super.noSuchMethod(
+      Invocation.method(#signInWith, ['email', 'password']),
+      returnValue: Future.value(resultValue)
+    );
   }
 }
 

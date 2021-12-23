@@ -18,7 +18,7 @@ class UserRepositoryImpl extends UserRepository {
 
       return Right(user);
     }
-    on ServerFailure catch (exception) {
+    on ServerException catch (exception) {
       return Left(ServerFailure(message: exception.message));
     }
     on CacheException catch (exception) {
@@ -51,7 +51,7 @@ class UserRepositoryImpl extends UserRepository {
 
       return const Right(true);
     }
-    on ServerFailure catch (exception) {
+    on ServerException catch (exception) {
       return Left(ServerFailure(message: exception.message));
     }
     on CacheException catch (exception) {

@@ -1,0 +1,186 @@
+
+import 'package:dartz/dartz.dart';
+import 'package:example_dependencies/core/core.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+
+const UserModel _user = UserModel(code: 'code', name: 'name');
+
+class MockUserLocalDataSource extends Mock implements UserLocalDataSource {
+  @override
+  Future<void> storeUser(UserModel userModel) {
+    return super.noSuchMethod(
+      Invocation.method(#storeUser, [userModel]),
+      returnValue: Future.value()
+    );
+  }
+
+  @override
+  Future<void> clean() {
+    return super.noSuchMethod(
+        Invocation.method(#clean, []),
+        returnValue: Future.value()
+    );
+  }
+
+  @override
+  Future<UserModel> getCachedUser() {
+    return super.noSuchMethod(
+      Invocation.method(#getCachedUser, []),
+      returnValue: Future.value(_user)
+    );
+  }
+}
+
+class MockUserRemoteDataSource extends Mock implements UserRemoteDataSource {
+  @override
+  Future<UserModel> fetchProfile() {
+    return super.noSuchMethod(
+      Invocation.method(#fetchProfile, []),
+      returnValue: Future.value(_user)
+    );
+  }
+
+  @override
+  Future<bool> logout() {
+    return super.noSuchMethod(
+        Invocation.method(#logout, []),
+        returnValue: Future.value(true)
+    );
+  }
+}
+
+void main() {
+  late MockUserLocalDataSource _userLocalDataSource;
+  late MockUserRemoteDataSource _userRemoteDataSource;
+  late UserRepositoryImpl _userRepository;
+
+  setUp(() {
+    _userLocalDataSource = MockUserLocalDataSource();
+    _userRemoteDataSource = MockUserRemoteDataSource();
+    _userRepository = UserRepositoryImpl(
+      localDataSource: _userLocalDataSource,
+      remoteDataSource: _userRemoteDataSource
+    );
+
+  });
+
+  void setUpMockStoreUserSuccess() {
+    when(_userLocalDataSource.storeUser(_user))
+        .thenAnswer((_) => Future.value());
+  }
+
+  void setUpMockStoreUserFailure() {
+    when(_userLocalDataSource.storeUser(_user))
+        .thenThrow(const CacheException());
+  }
+
+  void setUpMockFetchProfileSuccess() {
+    when(_userRemoteDataSource.fetchProfile())
+        .thenAnswer((_) async => _user
+    );
+  }
+
+  void setUpMockFetchProfileServerException() {
+    when(_userRemoteDataSource.fetchProfile())
+        .thenThrow(const ServerException());
+  }
+
+  void setUpMockLogoutSuccess() {
+    when(_userRemoteDataSource.logout())
+        .thenAnswer((_) async => true);
+  }
+
+  void setUpMockLogoutFailure() {
+    when(_userRemoteDataSource.logout())
+        .thenThrow(const ServerException());
+  }
+
+  void setUpMockCleanSuccess() {
+    when(_userLocalDataSource.clean())
+        .thenAnswer((_) => Future.value());
+  }
+
+  void setUpMockGetCachedProfileSuccess() {
+    when(_userLocalDataSource.getCachedUser())
+        .thenAnswer((_) async => _user);
+  }
+
+  void setUpMockGetCachedProfileFailure() {
+    when(_userLocalDataSource.getCachedUser())
+        .thenThrow(const CacheException());
+  }
+
+  group('[repository] Fetch user profile', () {
+    test('should return UserModel object when fetch profile info success', () async {
+      //arrange
+      setUpMockFetchProfileSuccess();
+      setUpMockStoreUserSuccess();
+
+      final failureOrUser = await _userRepository.fetchProfile();
+      expect(failureOrUser, const Right(_user));
+    });
+
+    test('should return ServerFailure object when fetch profile info failed', () async {
+      //arrange
+      setUpMockFetchProfileServerException();
+
+      final failure = await _userRepository.fetchProfile();
+
+      // assert
+      expect(failure, const Left(ServerFailure()));
+    });
+
+    test('should return CacheFailure object when caching data failed', () async {
+      //arrange
+      setUpMockFetchProfileSuccess();
+      setUpMockStoreUserFailure();
+
+      final failure = await _userRepository.fetchProfile();
+
+      // assert
+      expect(failure, const Left(CacheFailure()));
+    });
+  });
+
+  group('[repository] Logout', () {
+    test('should return true when logout success', () async {
+      //arrange
+      setUpMockLogoutSuccess();
+      setUpMockCleanSuccess();
+
+      final failureOrUser = await _userRepository.logout();
+      expect(failureOrUser, const Right(true));
+    });
+
+    test('should return ServerFailure object when server\'s response failed', () async {
+      //arrange
+      setUpMockLogoutFailure();
+
+      final failure = await _userRepository.logout();
+
+      // assert
+      expect(failure, const Left(ServerFailure()));
+    });
+  });
+
+  group('[repository] Get cached profile', () {
+    test('should return User when logout success', () async {
+      //arrange
+      setUpMockGetCachedProfileSuccess();
+
+      final failureOrUser = await _userRepository.getCachedProfile();
+      expect(failureOrUser, const Right(_user));
+    });
+
+    test('should return CacheFailure object when get cached data failed', () async {
+      //arrange
+      setUpMockGetCachedProfileFailure();
+
+      final failure = await _userRepository.getCachedProfile();
+
+      // assert
+      expect(failure, const Left(CacheFailure()));
+    });
+  });
+}

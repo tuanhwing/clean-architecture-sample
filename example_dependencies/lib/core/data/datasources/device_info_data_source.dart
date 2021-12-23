@@ -15,8 +15,6 @@ abstract class DeviceInfoDataSource {
   final PackageInfo packageInfo;
 
   /// Get device information
-  ///
-  /// Throws a [CacheException] for all error codes.
   Future<Map<String, dynamic>> get deviceInfo;
 }
 
