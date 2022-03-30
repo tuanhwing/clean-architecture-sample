@@ -13,7 +13,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsState extends THState<SettingsPage, SettingsBloc> {
-  _SettingsState() : super(GetIt.I.get<SettingsBloc>());
 
   @override
   Widget get content => Center(
@@ -23,7 +22,7 @@ class _SettingsState extends THState<SettingsPage, SettingsBloc> {
         const Text('Settings'),
         TextButton(
           onPressed: () {
-            bloc.add(LogoutEvent());
+            bloc.add(const LogoutEvent());
           },
           child: const Text('Logout')
         )

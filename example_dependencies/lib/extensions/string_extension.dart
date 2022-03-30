@@ -60,12 +60,4 @@ extension StringExtension on String {
       return '${l[i]}';
     });
   }
-
-  ///Upcase function
-  String get inCaps => '${this[0].toUpperCase()}${substring(1)}';
-  String get allInCaps => toUpperCase();
-  String get capitalizeFirsTofEach => split(" ").map((str) => str.inCaps).join(" ");
-  String get capitalize {
-    return "${this[0].toUpperCase()}${substring(1)}";
-  }
 }

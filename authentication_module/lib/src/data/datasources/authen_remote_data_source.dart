@@ -1,8 +1,6 @@
 
 import 'package:example_dependencies/example_dependencies.dart';
 
-import '../models/models.dart';
-
 abstract class AuthenticationRemoteDataSource extends BaseRemoteDataSource {
   AuthenticationRemoteDataSource(
     THNetworkRequester requester,

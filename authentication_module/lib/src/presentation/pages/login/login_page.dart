@@ -17,20 +17,19 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginState extends THState<LoginPage, LoginBloc> {
-  _LoginState() : super(GetIt.I.get<LoginBloc>());
-
   final TextEditingController _usernameTEC = TextEditingController();
   final TextEditingController _passwordTEC = TextEditingController();
+  final FocusNode _userNameFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
 
   @override
-  void onNetworkStatusChanged(THConnectivityState state) {
-    super.onNetworkStatusChanged(state);
+  void onRetry() {
+    super.onRetry();
   }
 
   @override
   void initState() {
     super.initState();
-
     _usernameTEC.addListener(() {
       bloc.add(UserNameChangedEvent(_usernameTEC.text));
     });
@@ -43,12 +42,14 @@ class _LoginState extends THState<LoginPage, LoginBloc> {
   void dispose() {
     _usernameTEC.dispose();
     _passwordTEC.dispose();
+    _userNameFocusNode.dispose();
+    _passwordFocusNode.dispose();
 
     super.dispose();
   }
 
   @override
-  Widget get content => SafeArea(
+  Widget get content => Center(
     child: Container(
       padding: const EdgeInsets.symmetric(
         horizontal: dependencies.Dimens.size32
@@ -56,47 +57,56 @@ class _LoginState extends THState<LoginPage, LoginBloc> {
       constraints: const BoxConstraints(
         maxWidth: dependencies.Dimens.size400
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const HeaderAuthenticationWidget(),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const HeaderAuthenticationWidget(),
 
-          RoundedTextField(
-            textEditingController: _usernameTEC,
-            hintText: tr("email").capitalize,
-            icon: const Icon(
+            RoundedTextField(
+              textEditingController: _usernameTEC,
+              hintText: tr("email").inCaps,
+              textInputAction: TextInputAction.next,
+              focusNode: _userNameFocusNode,
+              icon: const Icon(
                 Icons.person
+              ),
+              onSubmitted: (String value) {
+                FocusScope.of(context).requestFocus(_passwordFocusNode);
+              },
             ),
-          ),
-          const SizedBox(height: dependencies.Dimens.size16,),
-          RoundedPasswordTextField(
-            hintText: tr("password").capitalize,
-            textEditingController: _passwordTEC,
-          ),
-          const _ForgotPassword(),
-          const SizedBox(height: dependencies.Dimens.size32,),
-          BlocBuilder<LoginBloc, LoginState>(
-            buildWhen: (previous, current) => previous.status != current.status,
-            builder: (_, state) {
-              return RoundedButton(
-                title: tr("login").toUpperCase(),
-                textColor: themeData.scaffoldBackgroundColor,
-                onPressed: state.status.isValidated ? () {
-                  bloc.add(const LoginSubmitEvent());
-                } : null,
-              );
-            },
-          ),
-          const SizedBox(height: dependencies.Dimens.size32,),
-          AlreadyHaveAnAccountWidget(
-            title: tr("do_not_have_an_account").capitalize + "?",
-            subTitle: tr("register").capitalize,
-            onTap: () {
-              Navigator.of(context).pushNamed(Routes.register);
-            },
-          )
-        ],
+            const SizedBox(height: dependencies.Dimens.size16,),
+            RoundedPasswordTextField(
+              hintText: tr("password").inCaps,
+              textEditingController: _passwordTEC,
+              focusNode: _passwordFocusNode,
+              textInputAction: TextInputAction.done,
+            ),
+            const _ForgotPassword(),
+            const SizedBox(height: dependencies.Dimens.size32,),
+            BlocBuilder<LoginBloc, LoginState>(
+              buildWhen: (previous, current) => previous.status != current.status,
+              builder: (_, state) {
+                return RoundedButton(
+                  title: tr("login").toUpperCase(),
+                  textColor: themeData.scaffoldBackgroundColor,
+                  onPressed: state.status.isValidated ? () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    bloc.add(const LoginSubmitEvent());
+                  } : null,
+                );
+              },
+            ),
+            const SizedBox(height: dependencies.Dimens.size32,),
+            AlreadyHaveAnAccountWidget(
+              title: tr("do_not_have_an_account").inCaps + "?",
+              subTitle: tr("register").inCaps,
+              onTap: () {
+                Navigator.of(context).pushNamed(Routes.register);
+              },
+            )
+          ],
+        ),
       ),
     )
   );
@@ -115,7 +125,7 @@ class _ForgotPassword extends StatelessWidget {
         TextButton(
           onPressed: onTap,
           child: Text(
-            tr("forget_password").capitalize+"?",
+            tr("forget_password").inCaps+"?",
             style: themeData.textTheme.subtitle2!.apply(
               fontWeightDelta: 2,
               color: themeData.primaryColor.withOpacity(0.5)

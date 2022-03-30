@@ -14,17 +14,22 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterState extends THState<RegisterPage, RegisterBloc>  {
-  _RegisterState() : super(GetIt.I.get<RegisterBloc>());
 
   final TextEditingController _usernameTEC = TextEditingController();
   final TextEditingController _passwordTEC = TextEditingController();
   final TextEditingController _confirmPasswordTEC = TextEditingController();
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+  final FocusNode _confirmPasswordFocusNode = FocusNode();
 
   @override
   void dispose() {
     _usernameTEC.dispose();
     _passwordTEC.dispose();
     _confirmPasswordTEC.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _confirmPasswordFocusNode.dispose();
 
     super.dispose();
   }
@@ -36,36 +41,48 @@ class _RegisterState extends THState<RegisterPage, RegisterBloc>  {
   );
 
   @override
-  Widget get content => SafeArea(
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-            horizontal: dependencies.Dimens.size32
-        ),
-        constraints: const BoxConstraints(
-            maxWidth: dependencies.Dimens.size400
-        ),
+  Widget get content => Center(
+    child: Container(
+      padding: const EdgeInsets.symmetric(
+          horizontal: dependencies.Dimens.size32
+      ),
+      constraints: const BoxConstraints(
+          maxWidth: dependencies.Dimens.size400
+      ),
+      child: SingleChildScrollView(
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const HeaderAuthenticationWidget(),
 
             RoundedTextField(
               textEditingController: _usernameTEC,
-              hintText: tr("email").capitalize,
+              hintText: tr("email").inCaps,
+              focusNode: _emailFocusNode,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (String value) {
+                FocusScope.of(context).requestFocus(_passwordFocusNode);
+              },
               icon: const Icon(
                   Icons.person
               ),
             ),
             const SizedBox(height: dependencies.Dimens.size16,),
             RoundedPasswordTextField(
-              hintText: tr("password").capitalize,
+              hintText: tr("password").inCaps,
               textEditingController: _passwordTEC,
+              focusNode: _passwordFocusNode,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (String value) {
+                FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
+              },
             ),
             const SizedBox(height: dependencies.Dimens.size16,),
             RoundedPasswordTextField(
-              hintText: tr("confirm_password").capitalize,
+              hintText: tr("confirm_password").inCaps,
               textEditingController: _confirmPasswordTEC,
+              focusNode: _confirmPasswordFocusNode,
+              textInputAction: TextInputAction.done,
             ),
             const SizedBox(height: dependencies.Dimens.size32,),
             RoundedButton(
@@ -77,15 +94,16 @@ class _RegisterState extends THState<RegisterPage, RegisterBloc>  {
             ),
             const SizedBox(height: dependencies.Dimens.size32,),
             AlreadyHaveAnAccountWidget(
-              title: tr("already_have_an_account").capitalize + "?",
-              subTitle: tr("login").capitalize,
+              title: tr("already_have_an_account").inCaps + "?",
+              subTitle: tr("login").inCaps,
               onTap: () {
                 Navigator.of(context).pop();
               },
             ),
           ],
         ),
-      )
+      ),
+    ),
   );
 
 }

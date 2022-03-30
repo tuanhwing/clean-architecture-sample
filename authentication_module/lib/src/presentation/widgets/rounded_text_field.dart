@@ -11,7 +11,10 @@ class RoundedTextField extends StatelessWidget {
     this.icon,
     this.onChanged,
     this.obscureText = false,
-    this.textEditingController
+    this.textEditingController,
+    this.onSubmitted,
+    this.textInputAction,
+    this.focusNode,
   }) : super(key: key);
 
   final String? hintText;
@@ -19,6 +22,9 @@ class RoundedTextField extends StatelessWidget {
   final Function(String)? onChanged;
   final bool obscureText;
   final TextEditingController? textEditingController;
+  final Function(String)? onSubmitted;
+  final TextInputAction? textInputAction;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +36,12 @@ class RoundedTextField extends StatelessWidget {
           controller: textEditingController,
           obscureText: obscureText,
           onChanged: onChanged,
+          focusNode: focusNode,
           style: Theme.of(context).textTheme.subtitle1!.apply(
             fontWeightDelta: 2
           ),
+          onSubmitted: onSubmitted,
+          textInputAction: textInputAction,
           decoration: InputDecoration(
             isCollapsed: true,
             icon: icon,

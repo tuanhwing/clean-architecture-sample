@@ -2,6 +2,10 @@
   "login" : "login",
   "not_found" : "not found",
   "network_unavailable" : "network unavailable",
+  "something_went_wrong" : "something went wrong",
+  "ok" : "ok",
+  "retry" : "retry",
+
   "email" : "email",
   "password" : "password",
   "confirm_password" : "confirm password",

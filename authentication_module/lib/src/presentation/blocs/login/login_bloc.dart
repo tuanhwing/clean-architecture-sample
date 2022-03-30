@@ -22,20 +22,20 @@ class LoginBloc extends THBaseBloc<LoginEvent, LoginState> {
   void _fetchProfile() async {
     final failureOrUser = await _fetchProfileUseCase.invoke(NoParams());
     failureOrUser.fold(
-      (failure) => pageCubit.add(THError(failure.message ?? tr("unknown"))),
+      (failure) => pageCubit.add(THShowErrorOverlayState(failure.message ?? tr("unknown"))),
       (user) {
         GetIt.I.get<AppBloc>().add(AuthenticationStatusChangedEvent(user: user));
-        pageCubit.add(THNone());
+        pageCubit.add(THInitialState());
       }
     );
 }
 
   void _onSubmit(LoginSubmitEvent event, Emitter<LoginState> emit) async {
-    pageCubit.add(THLoading());//Show loading
+    pageCubit.add(THShowLoadingOverlayState());//Show loading
 
     final failureOrAuthenticated = await _signInUseCase.invoke(AuthenticationParams(email: state.email.value, password: state.password.value));
     failureOrAuthenticated.fold(
-        (failure) => pageCubit.add(THError(failure.message ?? tr("unknown"))),//Show error
+        (failure) => pageCubit.add(THShowErrorOverlayState(failure.message ?? tr("unknown"))),//Show error
         (signedIn) {
           _fetchProfile();
         },

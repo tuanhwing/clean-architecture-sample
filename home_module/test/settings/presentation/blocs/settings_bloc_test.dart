@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:home_module/src/presentation/blocs/blocs.dart';
 import 'package:mockito/mockito.dart';
 
-const THError _error = THError("error message");
+const THShowErrorOverlayState _error = THShowErrorOverlayState("error message");
 
 class MockLogOutUseCase extends Mock implements LogoutUseCase {
 
@@ -55,7 +55,7 @@ void main() {
 
   group('[bloc] Settings', () {
     test('initial state (None) is correct', () {
-      expect(_settingBloc.pageCubit.state, THNone());
+      expect(_settingBloc.pageCubit.state, THInitialState());
     });
 
     test('should emit [Loading, Error] when logout with error from response\'s server', () async {
@@ -64,7 +64,7 @@ void main() {
 
       // assert later
       final expected = [
-        THLoading(),
+        THShowLoadingOverlayState(),
         _error,
       ];
       expectLater(_settingBloc.pageCubit.stream, emitsInOrder(expected));
@@ -79,7 +79,7 @@ void main() {
 
       // assert later
       final expected = [
-        THLoading(),
+        THShowLoadingOverlayState(),
         _error,
       ];
       expectLater(_settingBloc.pageCubit.stream, emitsInOrder(expected));
@@ -94,7 +94,7 @@ void main() {
 
       // assert later
       final expected = [
-        THLoading(),
+        THShowLoadingOverlayState(),
         _error,
       ];
       expectLater(_settingBloc.pageCubit.stream, emitsInOrder(expected));

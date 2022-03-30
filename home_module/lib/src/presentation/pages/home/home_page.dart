@@ -13,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeState extends THState<HomePage, HomeBloc> {
-  _HomeState() : super(GetIt.I.get<HomeBloc>());
 
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = [

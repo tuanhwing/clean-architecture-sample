@@ -2,6 +2,10 @@
   "login" : "đăng nhập",
   "not_found" : "không tìm thấy",
   "network_unavailable" : "mất kết nối",
+  "something_went_wrong" : "có lỗi xảy ra",
+  "ok" : "ok",
+  "retry" : "thử lại",
+
   "email" : "email",
   "password" : "mật khẩu",
   "confirm_password" : "xác nhận mật khẩu",

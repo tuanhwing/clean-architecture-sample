@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:th_core/th_core.dart';
 
+import '../th_core.dart';
 import 'bloc/blocs.dart';
 import 'presenter/widgets/widgets.dart';
 import 'resources/th_dimens.dart';
 
 ///abstract [THState] class used to building your StatefulWidget(Page)
-// ignore: always_specify_types
-abstract class THState<FWidget extends StatefulWidget, Bloc extends THBaseBloc>
+abstract class THState<FWidget extends StatefulWidget, FBloc extends THBaseBloc>
     extends State<FWidget>
     with WidgetsBindingObserver {
-  ///Constructor
-  THState(this._bloc) {
-    _loadingOverlay = GetIt.I.get<THOverlayHandler>();
-  }
 
-  late THOverlayHandler _loadingOverlay;
+  late THOverlayHandler _overlayHandler;
 
   ///Bloc of current state
-  final Bloc _bloc;
+  late FBloc _bloc;
 
   ///Get bloc of current state
-  Bloc get bloc => _bloc;
+  FBloc get bloc => _bloc;
 
   ///Get ThemeData
   ThemeData get themeData => Theme.of(context);
@@ -64,110 +58,73 @@ abstract class THState<FWidget extends StatefulWidget, Bloc extends THBaseBloc>
     ),
   );
 
-  ///Loading widget
-  Widget get loadingWidget => ColoredBox(
-        color: themeData.primaryColorDark.withOpacity(0.1),
-        child: Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(themeData.primaryColor),
-          ),
+  ///In progress widget when [THFetchInProgressState] called
+  Widget get inProgressWidget => const InProgressWidget();
+
+  ///Failure widget when [THFetchFailureState] called
+  Widget get failureWidget =>
+      Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(themeData.primaryColor),
         ),
       );
 
-  ///Error widget
-  Widget errorWidget(String message, {String? title, VoidCallback? onOK}) {
-    Widget titleWidget = const SizedBox();
-    if (title != null) {
-      titleWidget = Padding(
-        padding: const EdgeInsets.only(
-          top: THDimens.size16,
-          left: THDimens.size64,
-          right: THDimens.size64,
-        ),
-        child: Text(
-          title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: themeData.textTheme.subtitle1
-              ?.apply(fontSizeDelta: THDimens.size3),
-        ),
-      );
-    }
+  ///Loading widget when [THShowLoadingOverlayState] called
+  Widget get loadingWidget => const LoadingWidget();
 
-    final double height =
-        screenSize != null ? screenSize!.height : THDimens.size300;
-
-    return ColoredBox(
-      color: themeData.primaryColorDark.withOpacity(0.1),
-      child: Material(
-        color: Colors.transparent,
-        child: Center(
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(THDimens.size16),
-            ),
-            child: Container(
-              width: height,
-              color: themeData.scaffoldBackgroundColor,
-              constraints: const BoxConstraints(maxWidth: THDimens.size300),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  titleWidget,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: THDimens.size16,
-                      horizontal: THDimens.size32,
-                    ),
-                    child: Text(message),
-                  ),
-                  Divider(
-                    height: THDimens.size1,
-                    color: themeData.primaryColorDark,
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                    ),
-                    onPressed: () {
-                      _loadingOverlay.hide();
-                      onOK?.call();
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                      child: Text(
-                        tr('ok').toUpperCase(),
-                        style: themeData.textTheme.subtitle1?.apply(
-                          color: themeData.primaryColor,
-                          fontSizeDelta: THDimens.size1,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+  ///Error widget when [THShowErrorOverlayState] called
+  Widget errorWidget(String message,
+      {
+        String? title,
+        String? okString,
+        VoidCallback? onOK,
+      }) {
+    return ErrorPopUpOverlayWidget(
+      message: message.inCaps,
+      title: title,
+      okString: okString,
+      overlayHandler: _overlayHandler,
     );
+  }
+
+  bool _buildWhen(THPageState previous, THPageState current) {
+    if (previous is THInitialState) {
+      return current is THFetchInProgressState ||
+          current is THFetchFailureState ||
+          current is THFetchSuccessState;
+    }
+    if (previous is THFetchInProgressState) {
+      return current is THFetchFailureState ||
+          current is THFetchSuccessState;
+    }
+    if (previous is THFetchFailureState) {
+      return current is THFetchInProgressState ||
+          current is THFetchSuccessState;
+    }
+    if (previous is THFetchSuccessState) {
+      return current is THFetchFailureState ||
+          current is THFetchInProgressState;
+    }
+    return false;
   }
 
   ///Called when cubit's state changed
   @mustCallSuper
-  void onCubitStateChanged(THPageState state) {
-    if (state is THNone) {
-      _loadingOverlay.hide();
-    } else if (state is THLoading) {
-      _loadingOverlay.showLoading(context, loadingWidget: loadingWidget);
-    } else if (state is THError) {
-      _loadingOverlay.showError(
+  void onPageStateChanged(THPageState state) {
+    if (state is THInitialState) {
+      _overlayHandler.hide();
+    } else if (state is THShowLoadingOverlayState) {
+      _overlayHandler.showLoading(context, loadingWidget: loadingWidget);
+    } else if (state is THShowErrorOverlayState) {
+      _overlayHandler.showError(
         context,
-        errorWidget: errorWidget(state.message),
+        errorWidget: errorWidget(state.message, ),
       );
     }
   }
+
+  ///Handle retry function when state is [THFetchFailureState]
+  void onRetry() {}
 
   ///Post-frame
   void onPostFrame() {}
@@ -186,22 +143,17 @@ abstract class THState<FWidget extends StatefulWidget, Bloc extends THBaseBloc>
   /// The application is in an inactive state and is not receiving user input.
   void onInactive() {}
 
-  ///The network connectivity changed
-  void onNetworkStatusChanged(THConnectivityState state) {}
-
   @override
   @mustCallSuper
   void initState() {
     super.initState();
 
-    //Listen state's page
-    bloc.pageCubit.stream.listen(onCubitStateChanged);
+    // Initialize
+    _bloc = GetIt.I.get<FBloc>();
+    _overlayHandler = GetIt.I.get<THOverlayHandler>();
 
     // Add the observer
     WidgetsBinding.instance!.addObserver(this);
-
-    // Check current network status
-    GetIt.I.get<THConnectivityCubit>().checkCurrentStatus();
 
     SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
       onPostFrame();
@@ -210,8 +162,12 @@ abstract class THState<FWidget extends StatefulWidget, Bloc extends THBaseBloc>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<Bloc>.value(
-      value: bloc,
+    return MultiBlocProvider(
+      // ignore_for_file: always_specify_types
+      providers: [
+        BlocProvider<FBloc>.value(value: _bloc),
+        BlocProvider<THPageCubit>.value(value: _bloc.pageCubit),
+      ],
       child: Builder(
         builder: (BuildContext context) {
           return GestureDetector(
@@ -221,23 +177,27 @@ abstract class THState<FWidget extends StatefulWidget, Bloc extends THBaseBloc>
             child: Scaffold(
               appBar: appBar,
               resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-              body: Column(
-                children: <Widget>[
-                  BlocConsumer<THConnectivityCubit, THConnectivityState>(
-                    listener: (_, THConnectivityState state) {
-                      THLogger().d(state.toString());
-                      onNetworkStatusChanged(state);
-                    },
-                    builder: (_, THConnectivityState state) {
-                      Widget networkWidget = const SizedBox();
-                      if (state is THOfflineNetworkState) {
-                        networkWidget = networkOfflineWidget;
-                      }
-                      return networkWidget;
-                    },
-                  ),
-                  Expanded(child: content),
-                ],
+              body: BlocConsumer<THPageCubit, THPageState>(
+                  listener: (BuildContext context, THPageState state) {
+                    onPageStateChanged(state);
+                  },
+                  buildWhen: (THPageState previous, THPageState current) {
+                    return _buildWhen(previous, current);
+                  },
+                  builder: (BuildContext context, THPageState state) {
+                    THLogger().d('$runtimeType build $state');
+                    if (state is THFetchInProgressState) {
+                      return inProgressWidget;
+                    }
+                    if (state is THFetchFailureState) {
+                    return FailureWidget(
+                      errorMessage: state.errorMessage,
+                      titleButton: state.titleButton,
+                      onRetry: onRetry,
+                    );
+                  }
+                    return content;
+                  },
               ),
               floatingActionButton: floatingActionButton,
               bottomNavigationBar: bottomNavigationBar,

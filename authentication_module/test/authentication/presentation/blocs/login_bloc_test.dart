@@ -7,7 +7,7 @@ import 'package:mockito/mockito.dart';
 
 const User _user = User(code: 'code', name: 'name');
 const AuthenticationParams authenticationParams = AuthenticationParams(email: 'email', password: 'password');
-const THError _error = THError("error message");
+const THShowErrorOverlayState _error = THShowErrorOverlayState("error message");
 
 class MockSignInUseCase extends Mock implements SignInUseCase {
   @override
@@ -83,7 +83,7 @@ void main() {
   group('[bloc] Login', () {
 
     test('initial state (None) is correct', () {
-      expect(_loginBloc.pageCubit.state, THNone());
+      expect(_loginBloc.pageCubit.state, THInitialState());
     });
 
     test('should emit [Loading, Error] when authentication with error from response\'s server', () async {
@@ -92,7 +92,7 @@ void main() {
 
       // assert later
       final expected = [
-        THLoading(),
+        THShowLoadingOverlayState(),
         _error,
       ];
       expectLater(_loginBloc.pageCubit.stream, emitsInOrder(expected));
@@ -107,7 +107,7 @@ void main() {
 
       // assert later
       final expected = [
-        THLoading(),
+        THShowLoadingOverlayState(),
         _error,
       ];
       expectLater(_loginBloc.pageCubit.stream, emitsInOrder(expected));
@@ -123,7 +123,7 @@ void main() {
 
       // assert later
       final expected = [
-        THLoading(),
+        THShowLoadingOverlayState(),
         _error,
       ];
       expectLater(_loginBloc.pageCubit.stream, emitsInOrder(expected));
@@ -139,7 +139,7 @@ void main() {
 
       // assert later
       final expected = [
-        THLoading(),
+        THShowLoadingOverlayState(),
         _error,
       ];
       expectLater(_loginBloc.pageCubit.stream, emitsInOrder(expected));
@@ -155,8 +155,8 @@ void main() {
 
       // assert later
       final expected = [
-        THLoading(),
-        THNone(),
+        THShowLoadingOverlayState(),
+        THInitialState(),
       ];
       expectLater(_loginBloc.pageCubit.stream, emitsInOrder(expected));
 

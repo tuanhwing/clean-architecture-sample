@@ -108,24 +108,17 @@ class _THCoreState extends State<THCoreApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: <BlocProvider<dynamic>>[
-        BlocProvider<THConnectivityCubit>.value(
-          value: GetIt.I.get<THConnectivityCubit>(),
-        ),
-      ],
-      child: EasyLocalization(
-        supportedLocales: widget.supportedLocales,
-        path: widget.path,
-        fallbackLocale: widget.fallbackLocale,
-        startLocale: widget.startLocale,
-        useOnlyLangCode: widget.useOnlyLangCode,
-        useFallbackTranslations: widget.useFallbackTranslations,
-        assetLoader: widget.assetLoader,
-        saveLocale: widget.saveLocale,
-        errorWidget: widget.errorWidget,
-        child: widget.child,
-      ),
+    return EasyLocalization(
+      supportedLocales: widget.supportedLocales,
+      path: widget.path,
+      fallbackLocale: widget.fallbackLocale,
+      startLocale: widget.startLocale,
+      useOnlyLangCode: widget.useOnlyLangCode,
+      useFallbackTranslations: widget.useFallbackTranslations,
+      assetLoader: widget.assetLoader,
+      saveLocale: widget.saveLocale,
+      errorWidget: widget.errorWidget,
+      child: widget.child,
     );
   }
 }
