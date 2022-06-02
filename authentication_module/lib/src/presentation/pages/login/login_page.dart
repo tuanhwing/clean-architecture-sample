@@ -88,9 +88,9 @@ class _LoginState extends THState<LoginPage, LoginBloc> {
               buildWhen: (previous, current) => previous.status != current.status,
               builder: (_, state) {
                 return RoundedButton(
-                  title: tr("login").toUpperCase(),
+                  title: tr('login').toUpperCase() + (state is LoginInProgressState ? '...' : ''),
                   textColor: themeData.scaffoldBackgroundColor,
-                  onPressed: state.status.isValidated ? () {
+                  onPressed: state is! LoginInProgressState && state.status.isValidated ? () {
                     FocusScope.of(context).requestFocus(FocusNode());
                     bloc.add(const LoginSubmitEvent());
                   } : null,

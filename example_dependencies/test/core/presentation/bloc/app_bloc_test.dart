@@ -2,7 +2,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:example_dependencies/example_dependencies.dart';
 
-const User _user = User(code: 'code', name: 'name');
+const User _user = UserModel(code: 'code', name: 'name');
 
 void main() {
   GetIt.I.registerFactory<THPageCubit>(() => THPageCubit());

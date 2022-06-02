@@ -21,7 +21,7 @@ packages:
       name: args
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.1"
   async:
     dependency: transitive
     description:
@@ -708,30 +708,38 @@ packages:
   th_core:
     dependency: transitive
     description:
-      path: "../th_core"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "7cf54a5558dcd1c2fee4d015f99b6f5e165c4cf6"
+      url: "https://github.com/tuanhwing/th_core.git"
+    source: git
     version: "0.0.1"
   th_dependencies:
     dependency: transitive
     description:
-      path: "../th_core/th_dependencies"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "9d4954fe2662bceaa5481f6f07f143aa3ba86b1b"
+      url: "https://github.com/tuanhwing/th_dependencies.git"
+    source: git
     version: "0.0.1"
   th_logger:
     dependency: transitive
     description:
-      path: "../th_core/th_logger"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "037a970f761cebeec8b77c634c692bffebcb9181"
+      url: "https://github.com/tuanhwing/th_logger.git"
+    source: git
     version: "0.0.1"
   th_network:
     dependency: transitive
     description:
-      path: "../th_core/th_network"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "9aec84a8fd0819fe4bd42c19f501a5a003a17fdd"
+      url: "https://github.com/tuanhwing/th_network.git"
+    source: git
     version: "0.0.1"
   timing:
     dependency: transitive

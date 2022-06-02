@@ -5,7 +5,7 @@ import 'package:example_dependencies/example_dependencies.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-const User _user = User(code: 'code', name: 'name');
+const User _user = UserModel(code: 'code', name: 'name');
 const AuthenticationParams authenticationParams = AuthenticationParams(email: 'email', password: 'password');
 const THShowErrorOverlayState _error = THShowErrorOverlayState("error message");
 
