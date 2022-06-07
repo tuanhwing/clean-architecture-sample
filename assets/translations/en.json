@@ -14,5 +14,7 @@
   "already_have_an_account" : "already have an account",
 
   "feature_not_available" : "feature not available",
-  "register" : "register"
+  "register" : "register",
+
+  "unknown" : "unkown"
 }

@@ -10,7 +10,7 @@ class GetCachedProfileUseCase extends UseCase<User, NoParams> {
   final UserRepository _userRepository;
 
   @override
-  Future<Either<Failure, User>> invoke(NoParams params) async {
+  Future<Either<Failure, User>> call(NoParams params) async {
     return await _userRepository.getCachedProfile();
   }
 }

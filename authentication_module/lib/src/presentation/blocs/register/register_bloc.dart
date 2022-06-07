@@ -10,6 +10,6 @@ class RegisterBloc extends THBaseBloc<RegisterEvent, RegisterState> {
   }
 
   void _onSubmit(RegisterSubmitEvent event, Emitter<RegisterState> emit) async {
-    pageCubit.add(THShowErrorOverlayState(tr("feature_not_available")));
+    pageCubit.add(THShowErrorOverlayState(message: tr("feature_not_available")));
   }
 }

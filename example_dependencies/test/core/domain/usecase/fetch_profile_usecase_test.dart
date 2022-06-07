@@ -52,7 +52,7 @@ void main() {
       //arrange
       setUpMockFetchProfileSuccess();
 
-      final user = await _useCase.invoke(NoParams());
+      final user = await _useCase.call(NoParams());
       expect(user, const Right<Failure, User>(_user));
     });
 
@@ -60,7 +60,7 @@ void main() {
       //arrange
       setUpMockFetchProfileServerFailure();
 
-      final failure = await _useCase.invoke(NoParams());
+      final failure = await _useCase.call(NoParams());
       expect(failure, const Left<Failure, bool>(ServerFailure()));
     });
 
@@ -68,7 +68,7 @@ void main() {
       //arrange
       setUpMockFetchProfileCacheFailure();
 
-      final failure = await _useCase.invoke(NoParams());
+      final failure = await _useCase.call(NoParams());
       expect(failure, const Left<Failure, bool>(CacheFailure()));
     });
 
@@ -76,7 +76,7 @@ void main() {
       //arrange
       setUpMockFetchProfileInternalFailure();
 
-      final failure = await _useCase.invoke(NoParams());
+      final failure = await _useCase.call(NoParams());
       expect(failure, const Left<Failure, bool>(InternalFailure()));
     });
   });

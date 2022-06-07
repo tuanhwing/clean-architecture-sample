@@ -40,7 +40,7 @@ Future<void> _init() async {
 
 Future<bool> _isLoggedIn() async {
   try {
-    final failureOrLoggedIn = await GetIt.I.get<GetCachedProfileUseCase>().invoke(NoParams());
+    final failureOrLoggedIn = await GetIt.I.get<GetCachedProfileUseCase>().call(NoParams());
     return failureOrLoggedIn.fold<bool>(
           (failure) => false,
           (loggedIn) => true,

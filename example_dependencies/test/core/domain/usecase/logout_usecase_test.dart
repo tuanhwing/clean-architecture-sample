@@ -49,7 +49,7 @@ void main() {
       //arrange
       setUpMockLogoutSuccess();
 
-      final user = await _useCase.invoke(NoParams());
+      final user = await _useCase.call(NoParams());
       expect(user, const Right<Failure, bool>(true));
     });
 
@@ -57,7 +57,7 @@ void main() {
       //arrange
       setUpMockLogoutServerFailure();
 
-      final failure = await _useCase.invoke(NoParams());
+      final failure = await _useCase.call(NoParams());
       expect(failure, const Left<Failure, bool>(ServerFailure()));
     });
 
@@ -65,7 +65,7 @@ void main() {
       //arrange
       setUpMockLogoutCacheFailure();
 
-      final failure = await _useCase.invoke(NoParams());
+      final failure = await _useCase.call(NoParams());
       expect(failure, const Left<Failure, bool>(CacheFailure()));
     });
 
@@ -73,7 +73,7 @@ void main() {
       //arrange
       setUpMockLogoutInternalFailure();
 
-      final failure = await _useCase.invoke(NoParams());
+      final failure = await _useCase.call(NoParams());
       expect(failure, const Left<Failure, bool>(InternalFailure()));
     });
   });

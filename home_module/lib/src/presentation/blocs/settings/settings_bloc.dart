@@ -14,9 +14,9 @@ class SettingsBloc extends THBaseBloc<SettingsEvent, SettingsState> {
 
   void _onLogout(LogoutEvent event, Emitter<SettingsState> emit) async {
     pageCubit.add(THInitialState());
-    final failureOrLoggedOut = await _logoutUseCase.invoke(NoParams());
+    final failureOrLoggedOut = await _logoutUseCase.call(NoParams());
     failureOrLoggedOut.fold(
-      (failure) => pageCubit.add(THShowErrorOverlayState(failure.message ?? tr("unknown"))),//Show error
+      (failure) => pageCubit.add(THShowErrorOverlayState(message: failure.message ?? tr("unknown"))),//Show error
       (loggedOut) {
         GetIt.I.get<AppBloc>().add(const AuthenticationStatusChangedEvent());
       },

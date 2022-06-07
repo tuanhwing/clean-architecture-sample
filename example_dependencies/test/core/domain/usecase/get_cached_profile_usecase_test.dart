@@ -46,7 +46,7 @@ void main() {
       //arrange
       setUpMockCachedProfileSuccess();
 
-      final user = await _useCase.invoke(NoParams());
+      final user = await _useCase.call(NoParams());
       expect(user, const Right<Failure, User>(_user));
     });
 
@@ -54,7 +54,7 @@ void main() {
       //arrange
       setUpMockCachedProfileCacheFailure();
 
-      final failure = await _useCase.invoke(NoParams());
+      final failure = await _useCase.call(NoParams());
       expect(failure, const Left<Failure, bool>(CacheFailure()));
     });
 
@@ -62,7 +62,7 @@ void main() {
       //arrange
       setUpMockCachedProfileInternalFailure();
 
-      final failure = await _useCase.invoke(NoParams());
+      final failure = await _useCase.call(NoParams());
       expect(failure, const Left<Failure, bool>(InternalFailure()));
     });
   });

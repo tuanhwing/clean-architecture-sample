@@ -7,7 +7,7 @@ import 'package:mockito/mockito.dart';
 
 const User _user = UserModel(code: 'code', name: 'name');
 const AuthenticationParams authenticationParams = AuthenticationParams(email: 'email', password: 'password');
-const THShowErrorOverlayState _error = THShowErrorOverlayState("error message");
+const THShowErrorOverlayState _error = THShowErrorOverlayState(message: "error message");
 
 class MockSignInUseCase extends Mock implements SignInUseCase {
   @override

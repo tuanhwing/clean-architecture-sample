@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:home_module/src/presentation/blocs/blocs.dart';
 import 'package:mockito/mockito.dart';
 
-const THShowErrorOverlayState _error = THShowErrorOverlayState("error message");
+const THShowErrorOverlayState _error = THShowErrorOverlayState(message: "error message");
 
 class MockLogOutUseCase extends Mock implements LogoutUseCase {
 

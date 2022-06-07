@@ -50,7 +50,7 @@ void main() {
       // arrange
       setUpMockAuthenticationRepositorySuccess();
 
-      final failureOrUser = await _signInUseCase.invoke(
+      final failureOrUser = await _signInUseCase.call(
         const AuthenticationParams(
           email: 'email',
           password: 'password'
@@ -64,7 +64,7 @@ void main() {
       // arrange
       setUpMockAuthenticationServerFailure();
 
-      final failureOrUser = await _signInUseCase.invoke(
+      final failureOrUser = await _signInUseCase.call(
           const AuthenticationParams(
               email: 'email',
               password: 'password'
@@ -79,7 +79,7 @@ void main() {
       // arrange
       setUpMockAuthenticationInternalFailure();
 
-      final failureOrUser = await _signInUseCase.invoke(
+      final failureOrUser = await _signInUseCase.call(
           const AuthenticationParams(
               email: 'email',
               password: 'password'

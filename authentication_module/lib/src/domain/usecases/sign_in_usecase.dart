@@ -10,7 +10,7 @@ class SignInUseCase extends UseCase<bool, AuthenticationParams> {
   final AuthenticationRepository _userRepository;
 
   @override
-  Future<Either<Failure, bool>> invoke(AuthenticationParams params) async {
+  Future<Either<Failure, bool>> call(AuthenticationParams params) async {
     return await _userRepository.signInWith(params.email, params.password);
   }
 }

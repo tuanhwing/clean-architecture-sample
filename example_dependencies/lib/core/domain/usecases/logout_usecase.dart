@@ -10,7 +10,7 @@ class LogoutUseCase extends UseCase<bool, NoParams> {
   final UserRepository _userRepository;
 
   @override
-  Future<Either<Failure, bool>> invoke(NoParams params) async {
+  Future<Either<Failure, bool>> call(NoParams params) async {
     return await _userRepository.logout();
   }
 

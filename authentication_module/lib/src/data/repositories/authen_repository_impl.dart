@@ -1,5 +1,4 @@
 
-import 'package:authentication_module/src/data/data.dart';
 import 'package:example_dependencies/example_dependencies.dart';
 
 import '../../domain/repositories/authen_repository.dart';

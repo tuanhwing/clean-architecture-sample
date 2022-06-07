@@ -14,8 +14,6 @@ dependencies:
 
   th_core:
     git: https://github.com/tuanhwing/th_core.git
-#  th_core:
-#    path: ../th_core
   device_info: ^2.0.3
   uuid: ^3.0.5
   package_info_plus: ^1.0.6

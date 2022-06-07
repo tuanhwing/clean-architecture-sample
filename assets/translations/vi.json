@@ -14,5 +14,7 @@
   "already_have_an_account" : "Bạn đã có tài khoản",
 
   "feature_not_available" : "tính năng chưa hổ trợ",
-  "register" : "đăng ký"
+  "register" : "đăng ký",
+
+  "unknown" : "không xác định"
 }
