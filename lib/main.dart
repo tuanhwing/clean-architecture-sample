@@ -54,8 +54,9 @@ Future<bool> _isLoggedIn() async {
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+  await FlutterConfig.loadEnvVariables();
   await THCoreApp.ensureInitialized(
-    baseURL: "https://myapi-dev.com.vn",
+    baseURL: FlutterConfig.get('HOST') ?? '',
   );
 
   await _init();

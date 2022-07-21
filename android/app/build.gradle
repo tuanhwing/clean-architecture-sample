@@ -24,9 +24,18 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+project.ext.envConfigFiles = [
+        developdebug: ".env.dev",
+        developrelease: ".env.dev",
+        stagingdebug: ".env.stg",
+        stagingrelease: ".env.stg",
+        productiondebug: ".env",
+        productionrelease: ".env",
+]
+apply from: project(':flutter_config').projectDir.getPath() + "/dotenv.gradle"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -48,6 +57,7 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        resValue "string", "build_config_package", "com.vn.tuanhwing.core.example"
     }
 
     buildTypes {
@@ -55,6 +65,26 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
+        }
+    }
+
+    flavorDimensions "flavors"
+
+    productFlavors {
+        develop {
+            dimension "flavors"
+            applicationIdSuffix ".dev"
+            manifestPlaceholders = [appName: "[DEV] THCleanSample"]
+        }
+        staging {
+            dimension "flavors"
+            applicationIdSuffix ".stg"
+            manifestPlaceholders = [appName: "[STG] THCleanSample"]
+        }
+        production {
+            dimension "flavors"
+            applicationIdSuffix ""
+            manifestPlaceholders = [appName: "THCleanSample"]
         }
     }
 }
