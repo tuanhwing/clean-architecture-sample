@@ -14,7 +14,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.8.1"
+    version: "2.8.2"
   authentication_module:
     dependency: "direct main"
     description:
@@ -42,7 +42,7 @@ packages:
       name: characters
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   charcode:
     dependency: transitive
     description:
@@ -106,6 +106,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  curl_logger_dio_interceptor:
+    dependency: transitive
+    description:
+      name: curl_logger_dio_interceptor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   dartz:
     dependency: transitive
     description:
@@ -133,7 +140,7 @@ packages:
       name: dio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.0.6"
   easy_localization:
     dependency: transitive
     description:
@@ -293,7 +300,14 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.10"
+    version: "0.12.11"
+  material_color_utilities:
+    dependency: transitive
+    description:
+      name: material_color_utilities
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
   meta:
     dependency: transitive
     description:
@@ -384,7 +398,7 @@ packages:
       name: platform
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.2"
+    version: "3.1.0"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -494,13 +508,13 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2"
+    version: "0.4.8"
   th_core:
     dependency: transitive
     description:
       path: "."
       ref: HEAD
-      resolved-ref: c11c161242fd459f3bf3a58094a79f238b2ba8cf
+      resolved-ref: "84d47aa8e6d5dc6f88c65eb1f38c56e37bf3bdf9"
       url: "https://github.com/tuanhwing/th_core.git"
     source: git
     version: "0.0.1"
@@ -527,7 +541,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "9aec84a8fd0819fe4bd42c19f501a5a003a17fdd"
+      resolved-ref: "6d821b9028e57a962cc3e00021d993b85769ee5b"
       url: "https://github.com/tuanhwing/th_network.git"
     source: git
     version: "0.0.1"
@@ -551,7 +565,7 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   win32:
     dependency: transitive
     description:
