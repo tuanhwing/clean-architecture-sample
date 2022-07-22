@@ -33,14 +33,14 @@ class _HomeState extends THState<HomePage, HomeBloc> {
         _selectedIndex = index;
       });
     },
-    items: const <BottomNavigationBarItem>[
+    items: <BottomNavigationBarItem>[
       BottomNavigationBarItem(
-        icon: Icon(Icons.home),
-        label: 'Home',
+        icon: const Icon(Icons.home),
+        label: tr("home").inCaps,
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.settings),
-        label: 'Settings',
+        icon: const Icon(Icons.settings),
+        label: tr("settings").inCaps,
       ),
     ],
   );

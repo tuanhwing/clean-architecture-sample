@@ -12,3 +12,11 @@ abstract class SettingsEvent extends Equatable {
 class LogoutEvent extends SettingsEvent {
   const LogoutEvent();
 }
+
+class SettingInitializationEvent extends SettingsEvent {
+  const SettingInitializationEvent();
+}
+
+class SettingInitializationErrorEvent extends SettingsEvent {
+  const SettingInitializationErrorEvent();
+}

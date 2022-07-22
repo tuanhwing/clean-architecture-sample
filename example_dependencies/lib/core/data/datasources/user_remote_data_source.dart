@@ -26,25 +26,25 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
 
   @override
   Future<UserModel> fetchProfile() async {
-    // ///Mock Up
-    // await Future.delayed(const Duration(seconds: 1));
-    // return UserModel.fromJson(MockUp.profile);
+    ///Mock Up
+    await Future.delayed(const Duration(seconds: 1));
+    return UserModel.fromJson(MockUp.profile);
 
-    //Network
-    THResponse response = await requester.executeRequest(
-      THRequestMethods.get,
-      "/front/api/v1/user/info",
-    );
-
-    if (response.success) {
-      return UserModel.fromJson(response.data);
-    }
-    else {
-      throw ServerException(
-          code: response.code,
-          message: response.message
-      );
-    }
+    // //Network
+    // THResponse response = await requester.executeRequest(
+    //   THRequestMethods.get,
+    //   "/front/api/v1/user/info",
+    // );
+    //
+    // if (response.success) {
+    //   return UserModel.fromJson(response.data);
+    // }
+    // else {
+    //   throw ServerException(
+    //       code: response.code,
+    //       message: response.message
+    //   );
+    // }
   }
 
   @override

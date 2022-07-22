@@ -28,6 +28,11 @@ class _LoginState extends THState<LoginPage, LoginBloc> {
   }
 
   @override
+  void onPageStateChanged(dependencies.THPageState state) {
+    super.onPageStateChanged(state);
+  }
+
+  @override
   void initState() {
     super.initState();
     _usernameTEC.addListener(() {
@@ -36,6 +41,8 @@ class _LoginState extends THState<LoginPage, LoginBloc> {
     _passwordTEC.addListener(() {
       bloc.add(PasswordChangedEvent(_passwordTEC.text));
     });
+
+
   }
 
   @override

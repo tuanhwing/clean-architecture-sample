@@ -16,5 +16,8 @@
   "feature_not_available" : "feature not available",
   "register" : "register",
 
-  "unknown" : "unkown"
+  "unknown" : "unkown",
+
+  "settings" : "settings",
+  "home" : "home"
 }

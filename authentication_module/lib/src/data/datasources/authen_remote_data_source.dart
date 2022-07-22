@@ -27,32 +27,32 @@ class AuthenticationRemoteDataSourceImpl extends AuthenticationRemoteDataSource 
 
   @override
   Future<bool> signIn(String email, String password) async {
-    // ///Mock Up
-    // await Future.delayed(const Duration(seconds: 1));
-    // requester.setToken(MockUp.login['access_token'], MockUp.login['refresh_token']);
-    // return true;
+    ///Mock Up
+    await Future.delayed(const Duration(seconds: 1));
+    requester.setToken(MockUp.login['access_token'], MockUp.login['refresh_token']);
+    return true;
 
-    //Network
-    THResponse response = await requester.executeRequest(
-        THRequestMethods.post,
-        "/front/api/v1/user/login",
-        data: {
-          "login_id" : email,
-          "password" : password,
-          "device" : await deviceInfo
-        }
-    );
-
-    if (response.success) {
-      requester.setToken(response.data['access_token'], response.data['refresh_token']);
-      return true;
-    }
-    else {
-      throw ServerException(
-          code: response.code,
-          message: response.message
-      );
-    }
+    // //Network
+    // THResponse response = await requester.executeRequest(
+    //     THRequestMethods.post,
+    //     "/front/api/v1/user/login",
+    //     data: {
+    //       "login_id" : email,
+    //       "password" : password,
+    //       "device" : await deviceInfo
+    //     }
+    // );
+    //
+    // if (response.success) {
+    //   requester.setToken(response.data['access_token'], response.data['refresh_token']);
+    //   return true;
+    // }
+    // else {
+    //   throw ServerException(
+    //       code: response.code,
+    //       message: response.message
+    //   );
+    // }
   }
 
   @override

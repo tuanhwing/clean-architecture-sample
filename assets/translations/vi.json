@@ -16,5 +16,8 @@
   "feature_not_available" : "tính năng chưa hổ trợ",
   "register" : "đăng ký",
 
-  "unknown" : "không xác định"
+  "unknown" : "không xác định",
+
+  "settings" : "cài đặt",
+  "home" : "trang chủ"
 }
