@@ -1,5 +1,4 @@
 
-import 'package:example_dependencies/core/core.dart';
 import 'package:example_dependencies/example_dependencies.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:home_module/src/presentation/blocs/blocs.dart';
@@ -10,7 +9,7 @@ const THShowErrorOverlayState _error = THShowErrorOverlayState(message: "error m
 class MockLogOutUseCase extends Mock implements LogoutUseCase {
 
   @override
-  Future<Either<Failure, bool>> invoke(NoParams params) async {
+  Future<Either<Failure, bool>> call(NoParams params) async {
     Right<Failure, bool> resultValue = const Right<Failure, bool>(true);
     return super.noSuchMethod(
         Invocation.method(#invoke, [NoParams()]),
@@ -34,22 +33,22 @@ void main() {
   });
 
   void setUpMockLogOutSuccess() {
-    when(_logoutUseCase.invoke(NoParams()))
+    when(_logoutUseCase.call(NoParams()))
         .thenAnswer((_) async => const Right<Failure, bool>(true));
   }
 
   void setUpMockLogOutServerFailure() {
-    when(_logoutUseCase.invoke(NoParams()))
+    when(_logoutUseCase.call(NoParams()))
         .thenAnswer((_) async => Left<Failure, bool>(ServerFailure(message: _error.message)));
   }
 
   void setUpMockLogOutCacheFailure() {
-    when(_logoutUseCase.invoke(NoParams()))
+    when(_logoutUseCase.call(NoParams()))
         .thenAnswer((_) async => Left<Failure, bool>(CacheFailure(message: _error.message)));
   }
 
   void setUpMockLogOutInternalFailure() {
-    when(_logoutUseCase.invoke(NoParams()))
+    when(_logoutUseCase.call(NoParams()))
         .thenAnswer((_) async => Left<Failure, bool>(InternalFailure(message: _error.message)));
   }
 
@@ -109,8 +108,8 @@ void main() {
 
       //Logout
       _settingBloc.add(const LogoutEvent());
-      await untilCalled(_logoutUseCase.invoke(NoParams()));
-      verify(_logoutUseCase.invoke(NoParams()));
+      await untilCalled(_logoutUseCase.call(NoParams()));
+      verify(_logoutUseCase.call(NoParams()));
 
       //AppBloc
       await untilCalled(_appBloc.emit(const AppState(user: null)));

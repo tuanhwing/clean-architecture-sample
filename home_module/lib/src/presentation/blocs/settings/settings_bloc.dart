@@ -1,5 +1,4 @@
 
-import 'package:th_core/th_core.dart';
 import 'package:example_dependencies/example_dependencies.dart';
 
 import 'settings_event.dart';

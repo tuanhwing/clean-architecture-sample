@@ -2,7 +2,6 @@ import 'package:authentication_module/authentication_module.dart';
 import 'package:example_dependencies/example_dependencies.dart';
 import 'package:home_module/home_module.dart';
 import 'package:flutter/material.dart';
-import 'package:th_core/th_core.dart';
 
 Future<void> _init() async {
   PackageInfo package = await PackageInfo.fromPlatform();

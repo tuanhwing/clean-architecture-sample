@@ -1,10 +1,5 @@
 
 import 'package:example_dependencies/example_dependencies.dart';
-import 'package:th_core/th_core.dart';
-
-import 'base_remote_data_source.dart';
-import '../models/models.dart';
-import '../../error/error.dart';
 
 abstract class UserRemoteDataSource extends BaseRemoteDataSource {
   UserRemoteDataSource(

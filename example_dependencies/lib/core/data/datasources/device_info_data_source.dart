@@ -2,9 +2,7 @@
 
 import 'dart:io';
 
-import 'package:device_info/device_info.dart';
 import 'package:example_dependencies/example_dependencies.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 abstract class DeviceInfoDataSource {
   DeviceInfoDataSource({

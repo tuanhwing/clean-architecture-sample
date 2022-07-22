@@ -1,6 +1,5 @@
 
 import 'package:example_dependencies/example_dependencies.dart';
-import 'package:th_core/th_core.dart';
 
 abstract class BaseRemoteDataSource {
   BaseRemoteDataSource(this._requester, this._deviceInfoDataSource);

@@ -1,7 +1,6 @@
 
 
 import 'package:authentication_module/src/data/data.dart';
-import 'package:example_dependencies/core/core.dart';
 import 'package:example_dependencies/example_dependencies.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

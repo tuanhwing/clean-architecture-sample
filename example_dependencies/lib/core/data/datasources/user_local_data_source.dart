@@ -4,8 +4,6 @@ import 'dart:convert';
 import 'package:example_dependencies/core/core.dart';
 import 'package:th_core/th_core.dart';
 
-import '../models/models.dart';
-
 abstract class UserLocalDataSource {
   UserLocalDataSource(this.sharedPreferences);
   final SharedPreferences sharedPreferences;

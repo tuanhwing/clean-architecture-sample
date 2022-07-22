@@ -11,7 +11,7 @@ const THShowErrorOverlayState _error = THShowErrorOverlayState(message: "error m
 
 class MockSignInUseCase extends Mock implements SignInUseCase {
   @override
-  Future<Either<Failure, bool>> invoke(AuthenticationParams params) async {
+  Future<Either<Failure, bool>> call(AuthenticationParams params) async {
     Right<Failure, bool> resultValue = const Right<Failure, bool>(true);
     return super.noSuchMethod(
       Invocation.method(#invoke, [const AuthenticationParams(
@@ -25,7 +25,7 @@ class MockSignInUseCase extends Mock implements SignInUseCase {
 
 class MockFetchProfileUseCase extends Mock implements FetchProfileUseCase {
   @override
-  Future<Either<Failure, User>> invoke(NoParams params) async {
+  Future<Either<Failure, User>> call(NoParams params) async {
     Right<Failure, User> resultValue = const Right<Failure, User>(_user);
     return super.noSuchMethod(
       Invocation.method(#invoke, [NoParams()]),
@@ -51,32 +51,32 @@ void main() {
   });
 
   void setUpMockAuthenticationSuccess() {
-    when(_signInUssCase.invoke(authenticationParams))
+    when(_signInUssCase.call(authenticationParams))
         .thenAnswer((_) async => const Right<Failure, bool>(true));
   }
 
   void setUpMockAuthenticationServerFailure() {
-    when(_signInUssCase.invoke(authenticationParams))
+    when(_signInUssCase.call(authenticationParams))
         .thenAnswer((_) async => Left<Failure, bool>(ServerFailure(message: _error.message)));
   }
 
   void setUpMockAuthenticationInternalFailure() {
-    when(_signInUssCase.invoke(authenticationParams))
+    when(_signInUssCase.call(authenticationParams))
         .thenAnswer((_) async => Left<Failure, bool>(InternalFailure(message: _error.message)));
   }
 
   void setUpMockFetchProfileSuccess() {
-    when(_fetchProfileUseCase.invoke(NoParams()))
+    when(_fetchProfileUseCase.call(NoParams()))
         .thenAnswer((_) async => const Right<Failure, User>(_user));
   }
 
   void setUpMockFetchProfileServerFailure() {
-    when(_fetchProfileUseCase.invoke(NoParams()))
+    when(_fetchProfileUseCase.call(NoParams()))
         .thenAnswer((_) async => Left<Failure, User>(ServerFailure(message: _error.message)));
   }
 
   void setUpMockFetchProfileInternalFailure() {
-    when(_fetchProfileUseCase.invoke(NoParams()))
+    when(_fetchProfileUseCase.call(NoParams()))
         .thenAnswer((_) async => Left<Failure, User>(InternalFailure(message: _error.message)));
   }
 
@@ -171,12 +171,12 @@ void main() {
 
       //Authentication
       _loginBloc.add(const LoginSubmitEvent());
-      await untilCalled(_signInUssCase.invoke(authenticationParams));
-      verify(_signInUssCase.invoke(authenticationParams));
+      await untilCalled(_signInUssCase.call(authenticationParams));
+      verify(_signInUssCase.call(authenticationParams));
 
       //Fetch profile
-      await untilCalled(_fetchProfileUseCase.invoke(NoParams()));
-      verify(_fetchProfileUseCase.invoke(NoParams()));
+      await untilCalled(_fetchProfileUseCase.call(NoParams()));
+      verify(_fetchProfileUseCase.call(NoParams()));
 
       //AppBloc
       await untilCalled(_appBloc.emit(const AppState(user: _user)));

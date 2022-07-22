@@ -1,6 +1,4 @@
 
-import 'dart:async';
-
 import 'package:authentication_module/src/data/data.dart';
 import 'package:authentication_module/src/domain/domain.dart';
 import 'package:example_dependencies/example_dependencies.dart';
