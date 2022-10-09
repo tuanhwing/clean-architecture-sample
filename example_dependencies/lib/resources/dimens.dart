@@ -1,5 +1,5 @@
 
-
+///Dimens
 class Dimens {
   ///0.1
   static const double size01 = 0.1;
@@ -13,6 +13,8 @@ class Dimens {
   static const double size07 = 0.7;
   ///0.8
   static const double size08 = 0.8;
+  ///0.9
+  static const double size09 = 0.9;
   ///1.0
   static const double size1 = 1.0;
   ///2.0
@@ -27,12 +29,19 @@ class Dimens {
   static const double size12 = 12.0;
   ///16.0
   static const double size16 = 16.0;
+  ///24.0
+  static const double size24 = 24.0;
   ///32.0
-  static const double size32= 32.0;
+  static const double size32 = 32.0;
+  ///40.0
+  static const double size40 = 40.0;
   ///64.0
   static const double size64 = 64.0;
   ///300.0
   static const double size300 = 300.0;
   ///400.0
   static const double size400 = 400.0;
+
+  ///480.0
+  static const double maxWidthPhone = 480.0;
 }

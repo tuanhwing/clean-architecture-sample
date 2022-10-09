@@ -1,13 +1,19 @@
 
 import 'dart:convert';
 
-import 'package:example_dependencies/core/core.dart';
 import 'package:th_core/th_core.dart';
 
+import '../../error/exceptions.dart';
+import '../models/user_model.dart';
+
+///Abstract class user local data source
 abstract class UserLocalDataSource {
+  ///Constructor
   UserLocalDataSource(this.sharedPreferences);
+  ///SharedPreferences
   final SharedPreferences sharedPreferences;
-  final String profileKey = "th_example_profile_key";
+  ///profileKey
+  final String profileKey = 'th_profile_key';
   
   /// Store user information in Share Preferences
   ///
@@ -25,8 +31,11 @@ abstract class UserLocalDataSource {
   Future<void> clean();
 }
 
+///UserLocalDataSource implementation
 class UserLocalDataSourceImpl extends UserLocalDataSource {
-  UserLocalDataSourceImpl(SharedPreferences sharedPreferences) : super(sharedPreferences);
+  ///Constructor
+  UserLocalDataSourceImpl(SharedPreferences sharedPreferences)
+      : super(sharedPreferences);
 
   @override
   Future<UserModel> getCachedUser() async {
@@ -41,7 +50,8 @@ class UserLocalDataSourceImpl extends UserLocalDataSource {
 
   @override
   Future<void> storeUser(UserModel userModel) async {
-    await sharedPreferences.setString(profileKey, json.encode(userModel.toJson()));
+    await sharedPreferences.setString(
+        profileKey, json.encode(userModel.toJson()));
     return;
   }
 

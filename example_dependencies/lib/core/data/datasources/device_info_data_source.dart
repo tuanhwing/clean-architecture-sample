@@ -1,22 +1,27 @@
 
-
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:io';
 
-import 'package:example_dependencies/example_dependencies.dart';
-
+///Abstract class device info data source
 abstract class DeviceInfoDataSource {
+  ///Constructor
   DeviceInfoDataSource({
     required this.deviceInfoPlugin,
     required this.packageInfo
   });
+  ///DeviceInfoPlugin
   final DeviceInfoPlugin deviceInfoPlugin;
+  ///PackageInfo
   final PackageInfo packageInfo;
 
   /// Get device information
   Future<Map<String, dynamic>> get deviceInfo;
 }
 
+///DeviceInfoDataSource implementation
 class DeviceInfoDataSourceImpl extends DeviceInfoDataSource {
+  ///Constructor
   DeviceInfoDataSourceImpl(
     DeviceInfoPlugin deviceInfoPlugin,
     PackageInfo packageInfo
@@ -52,7 +57,7 @@ class DeviceInfoDataSourceImpl extends DeviceInfoDataSource {
     }
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    _deviceInfo ??= {
+    _deviceInfo ??= <String, dynamic>{
       'device_code': uuid,
       'device_model': deviceModel,
       'os_name': osName,

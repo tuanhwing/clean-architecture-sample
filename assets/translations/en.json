@@ -1,23 +1,47 @@
 {
+  "en" : "english",
+  "vi" : "vietnamese",
+
   "login" : "login",
   "not_found" : "not found",
   "network_unavailable" : "network unavailable",
   "something_went_wrong" : "something went wrong",
   "ok" : "ok",
   "retry" : "retry",
-
-  "email" : "email",
-  "password" : "password",
-  "confirm_password" : "confirm password",
-  "forget_password" : "forget password",
-  "do_not_have_an_account" : "don't have an account",
-  "already_have_an_account" : "already have an account",
-
-  "feature_not_available" : "feature not available",
-  "register" : "register",
-
   "unknown" : "unkown",
 
+  "app_name" : "goter",
+  "welcome_to" : "welcome to",
+  "keeping_drivers_safety" : "keeping drivers safety",
+
+  "newbie_sign_up_now" : "i'm new, sign up",
+  "phone_number": "phone number",
+
+  "welcome" :  "welcome",
+  "registration_description" : "fill the form to become our guest",
+  "next" : "next",
+
+  "verification" : "verification",
+  "we_sent_you_an_sms_code" : "we sent you an sms code",
+  "on_number" : "on number",
+  "code_not_received" : "code not received",
+  "resend_new_code" : "resend new code",
+
   "settings" : "settings",
-  "home" : "home"
+  "notification" : "notification",
+  "home" : "home",
+  "language" : "language",
+  "history" : "history",
+  "help" : "help",
+  "log_out" : "log out",
+
+  "select_a_country" : "select a country",
+  "search" : "search",
+  "could_not_find_any_element_with" : "Couldn't find any element!",
+
+  "session_expired" : "session expired",
+  "pls_login_again" : "please log in again",
+  "logout_confirm" : "are you sure you want to log out?",
+  "yes" : "yes",
+  "no" : "no"
 }

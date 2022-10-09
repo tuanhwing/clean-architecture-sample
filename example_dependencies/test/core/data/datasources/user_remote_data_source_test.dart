@@ -4,24 +4,28 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dio/dio.dart' as dio;
 
-const Map<String, dynamic> _userJson = {'code' : 'code', 'name' : 'name'};
+const Map<String, dynamic> _userJson = <String, dynamic>{
+  'code': 'code',
+  'name': 'name'
+};
 
 class MockTHNetworkRequester extends Mock implements THNetworkRequester {
 
   @override
-  Future setToken(String? token, String? refreshToken) {
+  Future<void> setToken(String? token, String? refreshToken) {
 
     return super.noSuchMethod(
-        Invocation.method(#setToken, ['access_token', 'refresh_token']),
-        returnValue: Future.value(true)
+        Invocation.method(
+            #setToken, <dynamic>['access_token', 'refresh_token']),
+        returnValue: Future<bool>.value(true)
     );
   }
 
   @override
-  Future removeToken() {
+  Future<void> removeToken() {
     return super.noSuchMethod(
-      Invocation.method(#removeToken, []),
-      returnValue: Future.value(true)
+      Invocation.method(#removeToken, <dynamic>[]),
+      returnValue: Future<bool>.value(true)
     );
   }
 
@@ -35,11 +39,11 @@ class MockTHNetworkRequester extends Mock implements THNetworkRequester {
       }) async {
 
     return super.noSuchMethod(
-        Invocation.method(#executeRequest, [THRequestMethods.post, '/front/api/v1/user/login']),
-        returnValue: THResponse(
-            statusCode: 200,
-            code: 0,
-            data: {
+        Invocation.method(#executeRequest, <dynamic>[THRequestMethods.post, '/front/api/v1/user/login']),
+        returnValue: THResponse<dynamic>(
+            code: 200,
+            status: true,
+            data: <String, dynamic>{
               'access_token' : 'access_token',
               'refresh_token' : 'refresh_token',
             }
@@ -52,8 +56,8 @@ class MockDeviceInfoDataSource extends Mock implements DeviceInfoDataSource {
   @override
   Future<Map<String, dynamic>> get deviceInfo => super.noSuchMethod(
       Invocation.getter(#deviceInfo),
-      returnValue: Future.value({"os" : "os"})
-  );
+      returnValue:
+          Future<Map<String, dynamic>>.value(<String, dynamic>{'os': 'os'}));
 }
 
 void main() {
@@ -70,7 +74,7 @@ void main() {
     );
 
     when(_deviceInfoDataSource.deviceInfo)
-        .thenAnswer((_) async => {});
+        .thenAnswer((_) async => <String, dynamic>{});
 
     when(_requester.removeToken())
         .thenAnswer((_) async => true);
@@ -78,58 +82,60 @@ void main() {
 
   void setUpMockFetchProfileSuccess200() {
     when(_requester.executeRequest(
-        THRequestMethods.get, "/front/api/v1/user/login"))
+        THRequestMethods.get, '/front/api/v1/user/login'))
         .thenAnswer((_) async =>
-        THResponse(
-            statusCode: 200,
-            code: 0,
-            data: _userJson
+        THResponse<Map<String, dynamic>>(
+          code: 200,
+          status: true,
+          data: _userJson
         )
     );
   }
 
   void setUpMockFetchProfileServerException() {
     when(_requester.executeRequest(
-        THRequestMethods.get, "/front/api/v1/user/login"))
+        THRequestMethods.get, '/front/api/v1/user/login'))
         .thenThrow(const ServerException());
   }
 
   void setUpMockLogoutSuccess200() {
     when(_requester.executeRequest(
-        THRequestMethods.get, "/front/api/v1/user/logout"))
+        THRequestMethods.get, '/front/api/v1/user/logout'))
         .thenAnswer((_) async =>
-        THResponse(
-          statusCode: 200,
-          code: 0,
-          data: {}
+        THResponse<Map<String, dynamic>>(
+          code: 200,
+          status: true,
+          data: <String, dynamic>{}
         )
     );
   }
 
   void setUpMockLogoutServerException() {
     when(_requester.executeRequest(
-        THRequestMethods.get, "/front/api/v1/user/logout"))
+        THRequestMethods.get, '/front/api/v1/user/logout'))
         .thenThrow(const ServerException());
   }
 
   group('[data_source] user remote', () {
-    test('should return UserModel object when fetch profile info success', () async {
+    test('should return UserModel object when '
+        'fetch profile info success', () async {
       //arrange
       setUpMockFetchProfileSuccess200();
 
-      final user = await _userRemoteDataSource.fetchProfile();
+      final User user = await _userRemoteDataSource.fetchProfile();
 
       // assert
       expect(user, equals(UserModel.fromJson(_userJson)));
-      expect(user.code, _userJson['code']);
+      expect(user.id, _userJson['code']);
       expect(user.name, _userJson['name']);
     });
 
-    test('should return ServerException object when failure fetch profile info', () async {
+    test('should return ServerException object when '
+        'failure fetch profile info', () async {
       //arrange
       setUpMockFetchProfileServerException();
 
-      final call = _userRemoteDataSource.fetchProfile;
+      final Function() call = _userRemoteDataSource.fetchProfile;
 
       // assert
       expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
@@ -139,7 +145,7 @@ void main() {
       //arrange
       setUpMockLogoutSuccess200();
 
-      final loggedOut = await _userRemoteDataSource.logout();
+      final bool loggedOut = await _userRemoteDataSource.logout();
 
       // assert
       expect(loggedOut, true);
@@ -149,7 +155,7 @@ void main() {
       //arrange
       setUpMockLogoutServerException();
 
-      final call = _userRemoteDataSource.logout;
+      final Function() call = _userRemoteDataSource.logout;
 
       // assert
       expect(() => call(), throwsA(const TypeMatcher<ServerException>()));

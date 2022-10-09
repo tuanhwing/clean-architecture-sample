@@ -7,6 +7,28 @@ Flutter template project to explore the `Clean architecture` and manage the Flut
 This project is a starting point for a Flutter application.
 
 -  Use [th_core](https://github.com/tuanhwing/th_core) packages to implement `BLoC pattern`.
+   -  Use [th_network](https://github.com/tuanhwing/th_core) to perform all network requests in application.
+      - Using [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) to store `access_token` and `refresh_token`.
+      - Auto refresh token and retry when `access_token` expired.
+      - Present dialog notify session expired when `refresh_token` expired.
+      - Should be format of response [My_Simple_BE](https://github.com/tuanhwing/go_server) (feel free to change it to fit your needs)
+          ```
+          {
+              "status": true,
+              "message": "Successful",
+              "errors": null,
+              "data": {
+                  "id": "43eca605-7ba7-4253-9cac-c642157efa56",
+                  "phone": {
+                      "dial_code": "+84",
+                      "phone_number": "383703710",
+                      "full_phone_number": "+84383703710"
+                  },
+                  "name": "Tuấn Hwing"
+              }
+          }
+          ```
+
 -  Dividing a project into different modules (`modularization`)
 
 #### What is Modularization

@@ -1,23 +1,47 @@
 {
+  "en" : "tiếng anh",
+  "vi" : "tiếng việt",
+
   "login" : "đăng nhập",
   "not_found" : "không tìm thấy",
   "network_unavailable" : "mất kết nối",
   "something_went_wrong" : "có lỗi xảy ra",
   "ok" : "ok",
   "retry" : "thử lại",
-
-  "email" : "email",
-  "password" : "mật khẩu",
-  "confirm_password" : "xác nhận mật khẩu",
-  "forget_password" : "quên mật khẩu",
-  "do_not_have_an_account" : "Bạn chưa có tài khoản",
-  "already_have_an_account" : "Bạn đã có tài khoản",
-
-  "feature_not_available" : "tính năng chưa hổ trợ",
-  "register" : "đăng ký",
-
   "unknown" : "không xác định",
 
+  "app_name" : "goter",
+  "welcome_to" : "chào mừng tới",
+  "keeping_drivers_safety" : "giữ an toàn cho người lái xe",
+
+  "newbie_sign_up_now" : "hoặc đăng ký ngay",
+  "phone_number": "số điện thoại",
+
+  "welcome" :  "xin chào",
+  "registration_description" : "hãy điền thông tin để sử dụng dịch vụ",
+  "next" : "tiếp theo",
+
+  "verification" : "xác thực",
+  "we_sent_you_an_sms_code" : "chúng tôi đã gửi mã xác thực",
+  "on_number" : "tới số",
+  "code_not_received" : "không nhận được mã OTP",
+  "resend_new_code" : "gửi lại mã xác thực",
+
   "settings" : "cài đặt",
-  "home" : "trang chủ"
+  "notification" : "thông báo",
+  "home" : "trang chủ",
+  "language" : "ngôn ngữ",
+  "history" : "lịch sử",
+  "help" : "trợ giúp",
+  "log_out" : "đăng xuất",
+
+  "select_a_country" : "chọn một quốc gia",
+  "search" : "tìm kiếm",
+  "could_not_find_any_element" : "không tìm thấy kết quả nào!",
+
+  "session_expired" : "phiên làm việc hết hạn",
+  "pls_login_again" : "vui lòng đăng nhập lại",
+  "logout_confirm" : "bạn có chắc chắn bạn muốn đăng xuất?",
+  "yes" : "có",
+  "no" : "không"
 }

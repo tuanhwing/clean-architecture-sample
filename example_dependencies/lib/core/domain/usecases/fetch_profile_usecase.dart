@@ -6,7 +6,9 @@ import '../entities/entities.dart';
 import '../repositories/repositories.dart';
 import '../../error/error.dart';
 
+///FetchProfileUseCase
 class FetchProfileUseCase extends UseCase<User, NoParams> {
+  ///Constructor
   FetchProfileUseCase(this._userRepository);
   final UserRepository _userRepository;
 

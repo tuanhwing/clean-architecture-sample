@@ -2,48 +2,13 @@ import 'package:authentication_module/authentication_module.dart';
 import 'package:example_dependencies/example_dependencies.dart';
 import 'package:home_module/home_module.dart';
 import 'package:flutter/material.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 
-Future<void> _init() async {
-  PackageInfo package = await PackageInfo.fromPlatform();
-  //Common
-  GetIt.I.registerLazySingleton<DeviceInfoPlugin>(() => DeviceInfoPlugin());
-  GetIt.I.registerLazySingleton<PackageInfo>(() => package);
-  GetIt.I.registerLazySingleton<DeviceInfoDataSource>(() => DeviceInfoDataSourceImpl(
-    GetIt.I.get<DeviceInfoPlugin>(),
-    GetIt.I.get<PackageInfo>(),
-  ));
-
-  //Blocs
-  GetIt.I.registerLazySingleton<AppBloc>(() => AppBloc());
-
-  //Data
-  GetIt.I.registerLazySingleton<UserLocalDataSource>(() => UserLocalDataSourceImpl(GetIt.I.get()));
-  GetIt.I.registerLazySingleton<UserRemoteDataSource>(
-    () => UserRemoteDataSourceImpl(
-      GetIt.I.get(),
-      GetIt.I.get(),
-    )
-  );
-
-  //Repository
-  GetIt.I.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
-    localDataSource: GetIt.I.get<UserLocalDataSource>(),
-    remoteDataSource: GetIt.I.get<UserRemoteDataSource>())
-  );
-
-  //Use case
-  GetIt.I.registerLazySingleton<FetchProfileUseCase>(() => FetchProfileUseCase(GetIt.I.get()));
-  GetIt.I.registerLazySingleton<GetCachedProfileUseCase>(() => GetCachedProfileUseCase(GetIt.I.get()));
-  GetIt.I.registerLazySingleton<LogoutUseCase>(() => LogoutUseCase(GetIt.I.get()));
-}
-
-Future<bool> _isLoggedIn() async {
+bool get _isLoggedIn {
   try {
-    final failureOrLoggedIn = await GetIt.I.get<GetCachedProfileUseCase>().call(NoParams());
-    return failureOrLoggedIn.fold<bool>(
-          (failure) => false,
-          (loggedIn) => true,
-    );
+    final String? token = GetIt.I.get<THNetworkRequester>().token;
+    final bool result = token != null && token.isNotEmpty;
+    return result;
   }
   catch(exception) {
     return false;
@@ -55,63 +20,82 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
   await THCoreApp.ensureInitialized(
-    baseURL: FlutterConfig.get('HOST') ?? '',
+      baseURL: FlutterConfig.get('HOST') ?? '',
+      refreshTokenPath: '/api/user/refreshToken'
   );
 
-  await _init();
+  await GoterInjector().inject();
   await AuthenticationModule.initialize();
   await HomeModule.initialize();
 
-  String initRoute = await _isLoggedIn() ? HomeModule.routeName : AuthenticationModule.routeName;
-
   runApp(THCoreApp(
-    supportedLocales: const [Locale('vi'), Locale('en')],
+    supportedLocales: GetIt.I.get<AppBloc>().locales,
     path: 'assets/translations',
     fallbackLocale: const Locale('vi', 'VN'),
-    child: MyApp(initRouteName: initRoute),
+    child: MyApp(isLoggedIn: _isLoggedIn),
   ));
 }
 
+///My Application
 class MyApp extends StatelessWidget {
-  MyApp({Key? key, required this.initRouteName}) : super(key: key);
-  final String initRouteName;
+  ///Constructor
+  MyApp({Key? key, required this.isLoggedIn}) : super(key: key);
+  ///Whether user logged in or not
+  final bool isLoggedIn;
 
-  final _navigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   NavigatorState? get _navigator => _navigatorKey.currentState;
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    GetIt.I
+        .get<AppBloc>()
+        .add(AuthenticationStatusChangedEvent(isLoggedIn: isLoggedIn));
+
+    GetIt.I.get<THNetworkRequester>().languageCode = context.locale.toString();
+
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Goter',
       navigatorKey: _navigatorKey,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      initialRoute: initRouteName,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      initialRoute: isLoggedIn ? HomeModule.routeName
+          : AuthenticationModule.routeName,
+      // The Grey law, light theme.
+      theme: FlexThemeData.light(
+        scheme: FlexScheme.blueWhale,
+        fontFamily: 'Lato',
       ),
-      routes: {
+      // The Grey law, dark theme.
+      darkTheme: FlexThemeData.dark(
+        scheme: FlexScheme.blueWhale,
+        fontFamily: 'Lato',
+      ),
+      routes: <String, Widget Function(BuildContext)>{
         AuthenticationModule.routeName : (_) => AuthenticationModule(),
         HomeModule.routeName : (_) => HomeModule()
       },
-      builder: (_, child) {
+      builder: (_, Widget? child) {
         return MultiBlocProvider(
-          providers: [
-            BlocProvider<AppBloc>(create: (_) => GetIt.I.get<AppBloc>()),
-          ],
-          child: BlocListener<AppBloc, AppState>(
-            listener: (context, state) async {
-              if (state.user != null) {
-                _navigator!.pushReplacementNamed(HomeModule.routeName);
-              }
-              else {
-                _navigator!.pushReplacementNamed(AuthenticationModule.routeName);
-              }
-            },
-            child: child,
-          )
+            providers: <BlocProvider<dynamic>>[
+              BlocProvider<AppBloc>(create: (_) => GetIt.I.get<AppBloc>()),
+            ],
+            child: BlocListener<AppBloc, AppState>(
+              listenWhen: (AppState current, AppState previous) =>
+              current.isLoggedIn != previous.isLoggedIn,
+              listener: (BuildContext context, AppState state) async {
+                if (state.isLoggedIn) {
+                  _navigator!.pushReplacementNamed(HomeModule.routeName);
+                }
+                else {
+                  _navigator!
+                      .pushReplacementNamed(AuthenticationModule.routeName);
+                }
+              },
+              child: child,
+            )
         );
       },
     );

@@ -4,30 +4,38 @@ import 'package:example_dependencies/core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-const UserModel _user = UserModel(code: 'code', name: 'name');
+UserModel _user = const UserModel(
+    id: 'code',
+    name: 'name',
+    phoneModel: PhoneModel(
+      dialCode: 'dialCode',
+      phoneNumber: 'phoneNumber',
+      fullPhoneNumber: 'fullPhoneNumber',
+    )
+);
 
 class MockUserLocalDataSource extends Mock implements UserLocalDataSource {
   @override
   Future<void> storeUser(UserModel userModel) {
     return super.noSuchMethod(
-      Invocation.method(#storeUser, [userModel]),
-      returnValue: Future.value()
+      Invocation.method(#storeUser, <dynamic>[userModel]),
+      returnValue: Future<void>.value()
     );
   }
 
   @override
   Future<void> clean() {
     return super.noSuchMethod(
-        Invocation.method(#clean, []),
-        returnValue: Future.value()
+        Invocation.method(#clean, <dynamic>[]),
+        returnValue: Future<void>.value()
     );
   }
 
   @override
   Future<UserModel> getCachedUser() {
     return super.noSuchMethod(
-      Invocation.method(#getCachedUser, []),
-      returnValue: Future.value(_user)
+      Invocation.method(#getCachedUser, <dynamic>[]),
+      returnValue: Future<UserModel>.value(_user)
     );
   }
 }
@@ -36,16 +44,16 @@ class MockUserRemoteDataSource extends Mock implements UserRemoteDataSource {
   @override
   Future<UserModel> fetchProfile() {
     return super.noSuchMethod(
-      Invocation.method(#fetchProfile, []),
-      returnValue: Future.value(_user)
+      Invocation.method(#fetchProfile, <dynamic>[]),
+      returnValue: Future<UserModel>.value(_user)
     );
   }
 
   @override
   Future<bool> logout() {
     return super.noSuchMethod(
-        Invocation.method(#logout, []),
-        returnValue: Future.value(true)
+        Invocation.method(#logout, <dynamic>[]),
+        returnValue: Future<bool>.value(true)
     );
   }
 }
@@ -67,7 +75,7 @@ void main() {
 
   void setUpMockStoreUserSuccess() {
     when(_userLocalDataSource.storeUser(_user))
-        .thenAnswer((_) => Future.value());
+        .thenAnswer((_) => Future<void>.value());
   }
 
   void setUpMockStoreUserFailure() {
@@ -98,7 +106,7 @@ void main() {
 
   void setUpMockCleanSuccess() {
     when(_userLocalDataSource.clean())
-        .thenAnswer((_) => Future.value());
+        .thenAnswer((_) => Future<void>.value());
   }
 
   void setUpMockGetCachedProfileSuccess() {
@@ -112,34 +120,40 @@ void main() {
   }
 
   group('[repository] Fetch user profile', () {
-    test('should return UserModel object when fetch profile info success', () async {
+    test('should return UserModel object when '
+        'fetch profile info success', () async {
       //arrange
       setUpMockFetchProfileSuccess();
       setUpMockStoreUserSuccess();
 
-      final failureOrUser = await _userRepository.fetchProfile();
-      expect(failureOrUser, const Right(_user));
+      final Either<Failure, User> failureOrUser =
+          await _userRepository.fetchProfile();
+      expect(failureOrUser, Right<Failure, User>(_user));
     });
 
-    test('should return ServerFailure object when fetch profile info failed', () async {
+    test('should return ServerFailure object when '
+        'fetch profile info failed', () async {
       //arrange
       setUpMockFetchProfileServerException();
 
-      final failure = await _userRepository.fetchProfile();
+      final Either<Failure, User> failure =
+          await _userRepository.fetchProfile();
 
       // assert
-      expect(failure, const Left(ServerFailure()));
+      expect(failure, const Left<Failure, User>(ServerFailure()));
     });
 
-    test('should return CacheFailure object when caching data failed', () async {
+    test('should return CacheFailure object when '
+        'caching data failed', () async {
       //arrange
       setUpMockFetchProfileSuccess();
       setUpMockStoreUserFailure();
 
-      final failure = await _userRepository.fetchProfile();
+      final Either<Failure, User> failure =
+          await _userRepository.fetchProfile();
 
       // assert
-      expect(failure, const Left(CacheFailure()));
+      expect(failure, const Left<Failure, User>(CacheFailure()));
     });
   });
 
@@ -149,18 +163,20 @@ void main() {
       setUpMockLogoutSuccess();
       setUpMockCleanSuccess();
 
-      final failureOrUser = await _userRepository.logout();
-      expect(failureOrUser, const Right(true));
+      final Either<Failure, bool> failureOrUser =
+          await _userRepository.logout();
+      expect(failureOrUser, const Right<Failure, bool>(true));
     });
 
-    test('should return ServerFailure object when server\'s response failed', () async {
+    test('should return ServerFailure object when server\'s '
+        'response failed', () async {
       //arrange
       setUpMockLogoutFailure();
 
-      final failure = await _userRepository.logout();
+      final Either<Failure, bool> failure = await _userRepository.logout();
 
       // assert
-      expect(failure, const Left(ServerFailure()));
+      expect(failure, const Left<Failure, bool>(ServerFailure()));
     });
   });
 
@@ -169,18 +185,21 @@ void main() {
       //arrange
       setUpMockGetCachedProfileSuccess();
 
-      final failureOrUser = await _userRepository.getCachedProfile();
-      expect(failureOrUser, const Right(_user));
+      final Either<Failure, User> failureOrUser =
+          await _userRepository.getCachedProfile();
+      expect(failureOrUser, Right<Failure, User>(_user));
     });
 
-    test('should return CacheFailure object when get cached data failed', () async {
+    test('should return CacheFailure object when '
+        'get cached data failed', () async {
       //arrange
       setUpMockGetCachedProfileFailure();
 
-      final failure = await _userRepository.getCachedProfile();
+      final Either<Failure, User> failure =
+          await _userRepository.getCachedProfile();
 
       // assert
-      expect(failure, const Left(CacheFailure()));
+      expect(failure, const Left<Failure, User>(CacheFailure()));
     });
   });
 }

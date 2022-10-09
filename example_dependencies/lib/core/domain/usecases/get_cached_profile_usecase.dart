@@ -5,7 +5,9 @@ import '../entities/entities.dart';
 import '../repositories/repositories.dart';
 import '../../error/error.dart';
 
+///GetCachedProfileUseCase
 class GetCachedProfileUseCase extends UseCase<User, NoParams> {
+  ///Constructor
   GetCachedProfileUseCase(this._userRepository);
   final UserRepository _userRepository;
 

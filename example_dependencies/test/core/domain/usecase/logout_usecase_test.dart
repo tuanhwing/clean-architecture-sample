@@ -9,7 +9,7 @@ class MockUserRepository extends Mock implements UserRepository {
   Future<Either<Failure, bool>> logout() async {
     Right<Failure, bool> resultValue = const Right<Failure, bool>(true);
     return super.noSuchMethod(
-      Invocation.method(#logout, []),
+      Invocation.method(#logout, <dynamic>[]),
       returnValue: resultValue
     );
   }
@@ -31,17 +31,17 @@ void main() {
 
   void setUpMockLogoutServerFailure() {
     when(_repository.logout())
-        .thenAnswer((_) async => const Left(ServerFailure()));
+        .thenAnswer((_) async => const Left<Failure, bool>(ServerFailure()));
   }
 
   void setUpMockLogoutCacheFailure() {
     when(_repository.logout())
-        .thenAnswer((_) async => const Left(CacheFailure()));
+        .thenAnswer((_) async => const Left<Failure, bool>(CacheFailure()));
   }
 
   void setUpMockLogoutInternalFailure() {
     when(_repository.logout())
-        .thenAnswer((_) async => const Left(InternalFailure()));
+        .thenAnswer((_) async => const Left<Failure, bool>(InternalFailure()));
   }
 
   group('[use_case] Logout', () {
@@ -49,15 +49,16 @@ void main() {
       //arrange
       setUpMockLogoutSuccess();
 
-      final user = await _useCase.call(NoParams());
+      final Either<Failure, bool> user = await _useCase.call(NoParams());
       expect(user, const Right<Failure, bool>(true));
     });
 
-    test('should return ServerFailure when server\'s response failed', () async {
+    test('should return ServerFailure when server\'s '
+        'response failed', () async {
       //arrange
       setUpMockLogoutServerFailure();
 
-      final failure = await _useCase.call(NoParams());
+      final Either<Failure, bool> failure = await _useCase.call(NoParams());
       expect(failure, const Left<Failure, bool>(ServerFailure()));
     });
 
@@ -65,7 +66,7 @@ void main() {
       //arrange
       setUpMockLogoutCacheFailure();
 
-      final failure = await _useCase.call(NoParams());
+      final Either<Failure, bool> failure = await _useCase.call(NoParams());
       expect(failure, const Left<Failure, bool>(CacheFailure()));
     });
 
@@ -73,7 +74,7 @@ void main() {
       //arrange
       setUpMockLogoutInternalFailure();
 
-      final failure = await _useCase.call(NoParams());
+      final Either<Failure, bool> failure = await _useCase.call(NoParams());
       expect(failure, const Left<Failure, bool>(InternalFailure()));
     });
   });

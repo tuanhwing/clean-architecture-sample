@@ -1,7 +1,14 @@
 
-import 'package:example_dependencies/example_dependencies.dart';
+import 'package:th_core/th_core.dart';
 
+import '../../error/exceptions.dart';
+import '../models/user_model.dart';
+import 'base_remote_data_source.dart';
+import 'device_info_data_source.dart';
+
+///Abstract class UserRemoteDataSource
 abstract class UserRemoteDataSource extends BaseRemoteDataSource {
+  ///Constructor
   UserRemoteDataSource(
     THNetworkRequester requester,
     DeviceInfoDataSource deviceInfoDataSource
@@ -18,7 +25,9 @@ abstract class UserRemoteDataSource extends BaseRemoteDataSource {
   Future<bool> logout();
 }
 
+///UserRemoteDataSource implementation
 class UserRemoteDataSourceImpl extends UserRemoteDataSource {
+  ///Constructor
   UserRemoteDataSourceImpl(
     THNetworkRequester requester,
     DeviceInfoDataSource deviceInfoDataSource
@@ -26,44 +35,34 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
 
   @override
   Future<UserModel> fetchProfile() async {
-    ///Mock Up
-    await Future.delayed(const Duration(seconds: 1));
-    return UserModel.fromJson(MockUp.profile);
 
-    // //Network
-    // THResponse response = await requester.executeRequest(
-    //   THRequestMethods.get,
-    //   "/front/api/v1/user/info",
-    // );
-    //
-    // if (response.success) {
-    //   return UserModel.fromJson(response.data);
-    // }
-    // else {
-    //   throw ServerException(
-    //       code: response.code,
-    //       message: response.message
-    //   );
-    // }
+    THResponse<Map<String, dynamic>> response = await requester.executeRequest(
+      THRequestMethods.get,
+      '/api/user/profile',
+    );
+
+    if (response.success) {
+      return UserModel.fromJson(response.data ?? <String,dynamic>{});
+    }
+    else {
+      throw ServerException(
+          code: response.code,
+          message: response.message
+      );
+    }
   }
 
   @override
   Future<bool> logout() async {
-    // ///Mock Up
-    // await Future.delayed(const Duration(seconds: 1));
-    // return true;
-
-    //Network
-    THResponse response = await requester.executeRequest(
+    THResponse<dynamic> response = await requester.executeRequest(
       THRequestMethods.put,
-      "/front/api/v1/user/logout",
-      data: {
-        "device" : await deviceInfo
+      '/api/user/logout',
+      data: <String, dynamic>{
+        'device' : await deviceInfo
       }
     );
-
+    requester.removeToken();
     if (response.success) {
-      requester.removeToken();
       return true;
     }
     else {
