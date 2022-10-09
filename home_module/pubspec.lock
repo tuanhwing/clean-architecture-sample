@@ -661,7 +661,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "414b198c7e1a96c893c65ee1d66d99ecb393a333"
+      resolved-ref: f44337e90739d738552479ac2f29dce92a14b75b
       url: "https://github.com/tuanhwing/th_core.git"
     source: git
     version: "0.0.1"
