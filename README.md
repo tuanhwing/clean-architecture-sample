@@ -1,12 +1,19 @@
 # Clean Architecture & Flutter
 
 Flutter template project to explore the `Clean architecture` and manage the Flutter project to make scalable with a `modularization` approach.
+Attempt | Welcome | Phone Input | Country Selection | Code Input | Home | Language Selection
+--- | --- | --- | --- |--- |--- |---
+Screens | ![Screenshot](https://i.ibb.co/FzxTzdk/Simulator-Screen-Shot-i-Phone-13-2022-10-09-at-23-11-55.png) | ![Screenshot](https://i.ibb.co/tcjYsdC/Simulator-Screen-Shot-i-Phone-13-2022-10-09-at-23-12-40.png) | ![Screenshot](https://i.ibb.co/sHbWS08/Simulator-Screen-Shot-i-Phone-13-2022-10-09-at-23-12-35.png) | ![Screenshot](https://i.ibb.co/k322gKZ/Simulator-Screen-Shot-i-Phone-13-2022-10-09-at-23-12-54.png) | ![Screenshot](https://i.ibb.co/nkqpv8X/Simulator-Screen-Shot-i-Phone-13-2022-10-09-at-23-13-02.png) | ![Screenshot](https://i.ibb.co/f8k8Zzk/Simulator-Screen-Shot-i-Phone-13-2022-10-09-at-23-13-04.png)
 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
-
--  Use [th_core](https://github.com/tuanhwing/th_core) packages to implement `BLoC pattern`.
+-  Use [flutter_with_flavors](https://github.com/tuanhwing/flutter_with_flavors) to config flavor for project.
+   -  Different Firebase projects / launch icon / variables.. per flavor
+-  [th_core](https://github.com/tuanhwing/th_core) contain core template for my Flutter project.
+   -  Use [flutter_bloc](https://pub.dev/packages/flutter_bloc) to implement `BLoC pattern`.
+   -  Use [easy_localization](https://pub.dev/packages/easy_localization) to translate for many languages.
+   -  Dividing a project into different modules (`modularization`)
    -  Use [th_network](https://github.com/tuanhwing/th_core) to perform all network requests in application.
       - Using [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) to store `access_token` and `refresh_token`.
       - Auto refresh token and retry when `access_token` expired.
@@ -28,8 +35,6 @@ This project is a starting point for a Flutter application.
               }
           }
           ```
-
--  Dividing a project into different modules (`modularization`)
 
 #### What is Modularization
 ***Modular programming*** is a software design technique to separate functionality into independent, interchangeable module, so that each contains everything necessary to execute a specific functionality.
