@@ -28,8 +28,8 @@ This project is a starting point for a Flutter application.
                   "id": "43eca605-7ba7-4253-9cac-c642157efa56",
                   "phone": {
                       "dial_code": "+84",
-                      "phone_number": "383703710",
-                      "full_phone_number": "+84383703710"
+                      "phone_number": "123456789",
+                      "full_phone_number": "+84123456789"
                   },
                   "name": "Tuấn Hwing"
               }
